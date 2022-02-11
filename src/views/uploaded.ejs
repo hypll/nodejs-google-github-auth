@@ -58,7 +58,7 @@
         <script>
             const btn = document.getElementById("copy");
             btn.addEventListener("click", function () {
-                const val = "http://localhost:3000/uploads/<%- image  %>";
+                const val = "<%- host %>/uploads/<%- image  %>";
 
                 navigator.clipboard.writeText(val).then(
                     function () {

@@ -44,6 +44,7 @@ const upload = multer({
 router.post("/upload/single", upload.single("image"), (req, res) => {
     res.render("uploaded", {
         image: req.file.filename,
+        host: process.env.HOST,
     });
 });
 
