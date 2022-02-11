@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://www.imagemagik.tk">
-    <img src="https://www.imagemagik.tk/uploads/VkMa5yca1tMH9Pq-upload.png" alt="Hypestyle logo" width="200" height="165">
+    <img src="https://www.imagemagik.tk/upload.png" alt="Hypestyle logo" width="200" height="165">
   </a>
 </p>
 
@@ -48,18 +48,16 @@ You have to follow the **MIT LICENSE** for this project.
 
 **Permissions**
 
+✅ Commercial use <br>
+✅ Modification <br>
+✅ Distribution <br>
+✅ Private use <br>
 
- ✅ Commercial use <br>
- ✅ Modification <br>
- ✅ Distribution <br>
- ✅ Private use <br>
-
- 
 **Limitations**
 
- ❌ Liability <br>
- ❌ Warranty <br>
- 
+❌ Liability <br>
+❌ Warranty <br>
+
 **Conditions**
 
 ℹ️ License and copyright notice
