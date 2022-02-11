@@ -14,7 +14,7 @@ const indexRouter = require("./src/routes/index");
 app.use("/api", apiRouter);
 app.use("/", indexRouter);
 
-// Settings & middlewares
+// Settings & Middlewares
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.json());
 app.set("view engine", "ejs");
