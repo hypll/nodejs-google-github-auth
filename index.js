@@ -5,9 +5,18 @@ const express = require("express");
 const path = require("path");
 const app = express();
 const chalk = require("chalk");
-const passport = require("passport");
 const session = require("express-session");
+const passport = require("passport");
+const mongoose = require("mongoose");
+const MongoStore = require("connect-mongo")(session);
 const PORT = process.env.PORT || 5000;
+
+// Passport
+require("./src/utils/passport")(passport);
+
+// Passport Middlewares
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Routes
 const apiRouter = require("./src/routes/api");
@@ -22,9 +31,10 @@ app.use("/", indexRouter);
 // Sessions
 app.use(
     session({
-        secret: process.env.SESSION_SECRET,
+        secret: process.env.COOKIE_SESSION,
         resave: false,
         saveUninitialized: false,
+        store: new MongoStore({ mongooseConnection: mongoose.connection }),
     })
 );
 
