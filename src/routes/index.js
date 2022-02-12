@@ -9,6 +9,11 @@ router.get("/upload", (req, res) => {
     res.render("upload");
 });
 
+router.get("/dashboard", (req, res) => {
+    // res.render("dashboard");
+    res.send(200);
+});
+
 router.get("/view/:id", (req, res, next) => {
     Image.findOne({ imageId: req.params.id }, (err, image) => {
         if (err) {
