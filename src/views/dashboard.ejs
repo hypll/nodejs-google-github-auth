@@ -2,9 +2,29 @@
 <html lang="en">
     <head>
         <%- include("partials/head.ejs") %>
-        <title>Dashboard</title>
+        <title>Dashboard - <%- username %></title>
     </head>
     <body>
-        <h1>Dashboard</h1>
+        <!-- Navbar path: /partials/navbar -->
+        <%- include('partials/navbar.ejs') %>
+        <div class="dashboard__container">
+            <h1>Dashboard</h1>
+            <p>Welcome back <strong><%- username %> </strong></p>
+            <div class="dashboard__items">
+                <div class="dashboard__item">
+                    <hr class="dropdown-divider" />
+                    <h5>Your Profile</h5>
+                    <p><strong>Username:</strong> <%- username %></p>
+                    <p><strong>Joined:</strong> <%- joinedAt %></p>
+                    <p>
+                        <img
+                            src="<%- profilePicture  %> "
+                            alt="profilePicture"
+                            class="dashboard__profile__picture"
+                        />
+                    </p>
+                </div>
+            </div>
+        </div>
     </body>
 </html>

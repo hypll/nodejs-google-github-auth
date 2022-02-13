@@ -1,20 +1,33 @@
 require("dotenv").config();
 require("./src/database/connect");
 require("./src/utils/logger");
+require("./src/utils/passport-github");
 const express = require("express");
 const path = require("path");
 const app = express();
 const chalk = require("chalk");
 const session = require("express-session");
+const bodyParser = require("body-parser");
 const passport = require("passport");
 const mongoose = require("mongoose");
 const MongoStore = require("connect-mongo")(session);
 const PORT = process.env.PORT || 5000;
 
-// Passport
-require("./src/utils/passport")(passport);
+//  Middlewares & Sessions
+app.use(express.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(
+    session({
+        secret: "something",
+        resave: false,
+        saveUninitialized: false,
+        store: new MongoStore({
+            mongooseConnection: mongoose.connection,
+            ttl: 24 * 60 * 60,
+        }),
+    })
+);
 
-// Passport Middlewares
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -27,16 +40,6 @@ const indexRouter = require("./src/routes/index");
 app.use("/api", apiRouter);
 app.use("/auth", authRouter);
 app.use("/", indexRouter);
-
-// Sessions
-app.use(
-    session({
-        secret: process.env.COOKIE_SESSION,
-        resave: false,
-        saveUninitialized: false,
-        store: new MongoStore({ mongooseConnection: mongoose.connection }),
-    })
-);
 
 // Settings & Middlewares
 app.use(express.static(path.join(__dirname, "public")));

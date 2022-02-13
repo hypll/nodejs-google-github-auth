@@ -5,14 +5,15 @@ router.get("/", (req, res) => {
     res.send(200);
 });
 
-router.get("/google", passport.authenticate("google", { scope: ["profile"] }));
+router.get("/github", passport.authenticate("github"));
 
 router.get(
-    "/google/callback",
-    passport.authenticate("google", {
-        failureRedirect: "/",
-        successRedirect: "/dashboard",
-    })
+    "/github/callback",
+    passport.authenticate("github", { failureRedirect: "/login" }),
+    function (req, res) {
+        // Successful authentication, redirect home.
+        res.redirect("/dashboard");
+    }
 );
 
 router.get("/logout", (req, res) => {

@@ -3,7 +3,7 @@ const router = require("express").Router();
 const multer = require("multer");
 const yourid = require("yourid");
 const Image = require("../database/models/image");
-const moment = require("moment");
+const GithubUser = require("../database/models/GithubUser");
 
 router.get("/", (req, res) => {
     res.render("api");
@@ -25,7 +25,7 @@ const fileStorage = multer.diskStorage({
             imageId: `${id}`,
             imageName: file.originalname,
             imagePath: `/uploads/${id}-${file.originalname}`,
-            uploadedAt: moment().format("MMMM Do YYYY, h:mm:ss a"),
+            uploadedBy: req.user.userName,
         });
         img.save();
         cb(null, `${id}-${file.originalname}`);
@@ -56,29 +56,72 @@ router.post("/upload/multiple", upload.array("images", 3), (req, res) => {
 // Get images
 
 router.get("/uploads", (req, res) => {
-    const key = req.query.key;
-    Image.find({}, (err, images) => {
-        if (key === process.env.KEY) {
+    if (!req.isAuthenticated()) {
+        res.json({
+            status: 204,
+            error: "Unauthorized",
+            error_id: yourid.generate(30),
+            timestamp: new Date().toISOString(),
+        });
+    } else {
+        Image.find({}, (err, images) => {
             res.send(images);
-        } else {
-            res.json({
-                status: 204,
-                error: "Unauthorized",
-                error_id: yourid.generate(30),
-                timestamp: new Date().toISOString(),
-            });
-        }
-    });
+        });
+    }
+});
+
+router.get("/users", (req, res) => {
+    if (!req.isAuthenticated()) {
+        res.json({
+            status: 204,
+            error: "Unauthorized",
+            error_id: yourid.generate(30),
+            timestamp: new Date().toISOString(),
+        });
+    } else {
+        const key = req.query.key;
+        GithubUser.find({}, (err, users) => {
+            res.send(users);
+        });
+    }
 });
 
 router.get("/uploads/:id", (req, res) => {
-    Image.findOne({ imageId: req.params.id }, (err, image) => {
-        if (err) {
-            res.send("Image was not found!");
-        } else {
-            res.send(image);
-        }
-    });
+    if (!req.isAuthenticated()) {
+        res.json({
+            status: 204,
+            error: "Unauthorized",
+            error_id: yourid.generate(30),
+            timestamp: new Date().toISOString(),
+        });
+    } else {
+        Image.findOne({ imageId: req.params.id }, (err, image) => {
+            if (err) {
+                res.send("Image was not found!");
+            } else {
+                res.send(image);
+            }
+        });
+    }
+});
+
+router.get("/users/:id", (req, res) => {
+    if (!req.isAuthenticated()) {
+        res.json({
+            status: 204,
+            error: "Unauthorized",
+            error_id: yourid.generate(30),
+            timestamp: new Date().toISOString(),
+        });
+    } else {
+        GithubUser.findOne({ displayId: req.params.id }, (err, user) => {
+            if (err) {
+                res.send("User was not found!");
+            } else {
+                res.send(user);
+            }
+        });
+    }
 });
 
 module.exports = router;
