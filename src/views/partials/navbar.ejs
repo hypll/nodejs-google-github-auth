@@ -68,14 +68,16 @@
                 </button>
                 <!-- if the user already logged in then show a logout button -->
                 <% if (isLoggedIn) { %>
+
                 <button
                     type="button"
-                    style="margin-left: 5px"
+                    style="margin-left: 7px"
                     onclick="logout()"
                     class="btn btn-danger"
                 >
                     <i class="fas fa-sign-out-alt"></i> Logout
                 </button>
+
                 <% } else { %>
                 <button
                     type="button"

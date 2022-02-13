@@ -13,6 +13,7 @@ router.get("/dashboard", ensureAuth, async (req, res) => {
     res.render("dashboard", {
         gitId: req.user.githubId,
         disId: req.user.displayId,
+        disName: req.user.displayName,
         username: req.user.userName,
         profilePicture: req.user.profilePicture,
         joinedAt: req.user.joinedAt,

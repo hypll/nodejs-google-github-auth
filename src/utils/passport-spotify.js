@@ -1,18 +1,18 @@
-var GitHubStrategy = require("passport-github").Strategy;
-const passport = require("passport");
+const SpotifyStrategy = require("passport-spotify").Strategy;
+const SpotifyUser = require("../database/models/SpotifyUser");
 const moment = require("moment");
-const GithubUser = require("../database/models/GithubUser");
+const passport = require("passport");
 
 passport.use(
-    new GitHubStrategy(
+    new SpotifyStrategy(
         {
-            clientID: process.env.GITHUB_CLIENT_ID,
-            clientSecret: process.env.GITHUB_CLIENT_SECRET,
-            callbackURL: "/auth/github/callback",
+            clientID: process.env.SPOTIFY_CLIENT_ID,
+            clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
+            callbackURL: "/auth/spotify/callback",
         },
-        async function (accessToken, refreshToken, profile, done) {
+        async function (accessToken, refreshToken, expires_in, profile, done) {
             const newUser = {
-                githubId: profile.id,
+                spotifyId: profile.id,
                 displayName: profile.displayName,
                 userName: profile.username,
                 profilePicture: profile.photos[0].value,
@@ -20,11 +20,11 @@ passport.use(
             };
 
             try {
-                let user = await GithubUser.findOne({ githubId: profile.id });
+                let user = await SpotifyUser.findOne({ spotifyId: profile.id });
                 if (user) {
                     done(null, user);
                 } else {
-                    user = await GithubUser.create(newUser);
+                    user = await SpotifyUser.create(newUser);
                     done(null, user);
                 }
             } catch (err) {
@@ -39,5 +39,5 @@ passport.serializeUser((user, done) => {
 });
 
 passport.deserializeUser((id, done) => {
-    GithubUser.findById(id, (err, user) => done(err, user));
+    SpotifyUser.findById(id, (err, user) => done(err, user));
 });

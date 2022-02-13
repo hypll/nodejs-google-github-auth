@@ -2,6 +2,7 @@ require("dotenv").config();
 require("./src/database/connect");
 require("./src/utils/logger");
 require("./src/utils/passport-github");
+require("./src/utils/passport-spotify");
 const express = require("express");
 const path = require("path");
 const app = express();

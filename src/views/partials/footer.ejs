@@ -1,23 +1,29 @@
-<!-- responsive footer with bulma -->
-<footer class="footer" style="background-color: lightgray">
-    <div class="content has-text-centered">
-        <p>
-            <strong>Imagemagik</strong> by
-            <a href="https://lassv.netlify.app">Lasse Vestergaard</a>. The
-            source code is licensed
-            <a href="http://opensource.org/licenses/mit-license.php">MIT</a>.
-            <span class="footer__copyright"></span>
-        </p>
-        <p>
-            <a class="footer__icon" href="https://github.com/lassv/imagemagik">
-                <i class="fab fa-github fa-lg"></i>
-            </a>
-
-            <a class="footer__icon" href="https://twitter.com/@lassev05">
-                <i class="fab fa-twitter fa-lg"></i>
-            </a>
-        </p>
+<footer class="footer mt-auto py-3 bg-light">
+        <div class="text-center mb-0">
+            <p>
+                <strong>Imagemagik</strong> with <i style="color: #EA2027" class="fa fa-heart text-red"></i> by
+                <a href="https://lassv.netlify.app">Lasse Vestergaard</a>. The
+                source code is licensed
+                <a href="http://opensource.org/licenses/mit-license.php">MIT</a>.
+                <span id="footer__copyright"></span>
+            </p>
+            <p>
+                <a class="footer__icon" href="https://github.com/lassv/imagemagik">
+                    <i class="fab fa-github fa-lg"></i>
+                </a>
+    
+                <a class="footer__icon" href="https://twitter.com/@lassev05">
+                    <i class="fab fa-twitter fa-lg"></i>
+                </a>
+            </p>
+        </div>
     </div>
+</footer>
+    <script>
+        const footerCopyright = document.getElementById("footer__copyright");
+        const year = new Date().getFullYear();
+        footerCopyright.innerHTML = `&copy; ${year} Imagemagik, Inc.`;
+    </script>
 </footer>
 <!-- end of footer -->
 <!-- end of body -->
