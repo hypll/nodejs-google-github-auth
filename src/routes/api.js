@@ -1,5 +1,6 @@
 require("dotenv").config();
 const router = require("express").Router();
+const moment = require("moment");
 const multer = require("multer");
 const yourid = require("yourid");
 const Image = require("../database/models/image");
@@ -26,6 +27,7 @@ const fileStorage = multer.diskStorage({
             imageName: file.originalname,
             imagePath: `/uploads/${id}-${file.originalname}`,
             uploadedBy: req.user.userName,
+            uploadedAt: moment().format("MMMM Do YYYY, h:mm:ss a"),
         });
         img.save();
         cb(null, `${id}-${file.originalname}`);

@@ -1,5 +1,6 @@
 var GitHubStrategy = require("passport-github").Strategy;
 const passport = require("passport");
+const moment = require("moment");
 const GithubUser = require("../database/models/GithubUser");
 
 passport.use(
@@ -15,6 +16,7 @@ passport.use(
                 displayName: profile.displayName,
                 userName: profile.username,
                 profilePicture: profile.photos[0].value,
+                joinedAt: moment().format("MMMM Do YYYY"),
             };
 
             try {

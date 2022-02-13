@@ -9,10 +9,6 @@ router.get("/", ensureGuest, (req, res) => {
     });
 });
 
-router.get("/upload", ensureAuth, (req, res) => {
-    res.render("upload");
-});
-
 router.get("/dashboard", ensureAuth, async (req, res) => {
     res.render("dashboard", {
         gitId: req.user.githubId,

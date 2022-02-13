@@ -34,8 +34,8 @@ const GithubUserSchema = new mongoose.Schema({
     },
 
     joinedAt: {
-        type: Date,
-        default: Date.now,
+        type: String,
+        required: true,
     },
 });
 

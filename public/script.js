@@ -1,5 +1,5 @@
 function upload() {
-    window.location.href = "/upload?login=true";
+    window.location.href = "/dashboard#upload";
 }
 
 function githubLogin() {
