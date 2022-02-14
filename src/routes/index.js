@@ -1,6 +1,8 @@
 const router = require("express").Router();
 const Image = require("../database/models/image");
 const User = require("../database/models/User");
+const path = require("path");
+const fs = require("fs");
 const { ensureAuth, ensureGuest } = require("../middleware/requireAuth");
 
 router.get("/", ensureGuest, (req, res) => {
@@ -29,6 +31,29 @@ router.get("/dashboard", ensureAuth, async (req, res) => {
 router.get("/login", ensureGuest, async (req, res) => {
     res.render("login", {
         isLoggedIn: req.isAuthenticated(),
+    });
+});
+
+router.get("/partners", ensureGuest, (req, res) => {
+    const partners = [
+        {
+            id: 1,
+            name: "Top Bot List",
+            description:
+                "Discord is the easiest way to communicate over voice, video, and text.  Chat, hang out, and stay close with your friends and communities.",
+            link: "https://topbotlist.ml",
+            logo: "https://topbotlist.ml/img/logo.png",
+        },
+    ];
+
+    res.render("partners", {
+        isLoggedIn: req.isAuthenticated(),
+        partnerId: partners[0].id,
+        partnerName: partners[0].name,
+        partnerDescription: partners[0].description,
+        partnerLink: partners[0].link,
+        partnerLogo: partners[0].logo,
+        partner: partners,
     });
 });
 
