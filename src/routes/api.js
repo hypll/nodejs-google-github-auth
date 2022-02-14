@@ -126,4 +126,32 @@ router.get("/users/:id", (req, res) => {
     }
 });
 
+// User Update
+
+//  create a route that updates the user's bio
+router.put("/update/bio/users/:id", (req, res) => {
+    if (!req.isAuthenticated()) {
+        res.json({
+            status: 204,
+            error: "Unauthorized",
+            error_id: yourid.generate(30),
+            timestamp: new Date().toISOString(),
+        });
+    } else {
+        GithubUser.findOneAndUpdate(
+            { _id: req.params.id },
+            { userBio: req.body.userBio },
+            { new: true },
+            { upsert: true },
+            (err, user) => {
+                if (err) {
+                    res.send("User was not found!");
+                } else {
+                    res.redirect("/dashboard?updateKey=" + user.displayId);
+                }
+            }
+        );
+    }
+});
+
 module.exports = router;

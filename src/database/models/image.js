@@ -17,9 +17,9 @@ const ImageSchema = new mongoose.Schema({
         required: true,
     },
 
-    uploadedBy: {
-        type: String,
-        required: true,
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "GithubUser",
     },
 
     uploadedAt: {

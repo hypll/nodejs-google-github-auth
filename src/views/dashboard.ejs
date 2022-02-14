@@ -23,6 +23,15 @@
                                 class="btn btn-secondary"
                                 >Images</a
                             >
+                            <button
+                                type="button"
+                                href="/profile/<%- id %>"
+                                target="_blank"
+                                class="btn btn-success"
+                                disabled
+                            >
+                                <i class="fas fa-external-link"></i> Profile
+                            </button>
                         </div>
                         <div class="card-body">
                             <h2 class="card-title">Your Account</h2>
@@ -50,13 +59,34 @@
                                 </p>
                                 <% } %>
 
+                                <strong>📍 Bio</strong>
+                                <form action="/api/bio" method="POST">
+                                    <input
+                                        type="text"
+                                        class="form-control mb-2"
+                                        id="bio"
+                                        placeholder="Tell us a little about yourself"
+                                        value="<%- bio %>"
+                                        disabled
+                                    />
+
+                                    <button
+                                        type="submit"
+                                        class="btn btn-success"
+                                        style="cursor: not-allowed"
+                                        disabled
+                                    >
+                                        Update
+                                    </button>
+                                </form>
+
                                 <strong>Joined</strong>
                                 <p class="card-text" style="color: gray">
                                     <%- joinedAt %>
                                 </p>
                             </div>
                         </div>
-                        <div class="mb-2">
+                        <div class="mb-3">
                             <a href="/auth/logout" class="btn btn-danger"
                                 ><i class="fa fa-sign-out-alt"></i> Logout</a
                             >
@@ -88,5 +118,8 @@
 
         <!-- Upload type: component path: partials/upload -->
         <%- include('partials/upload.ejs') %>
+
+        <!-- Images type: component path: partials/images -->
+        <%- include('partials/images.ejs') %>
     </body>
 </html>

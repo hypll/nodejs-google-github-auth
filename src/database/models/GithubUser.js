@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const Image = require("./image");
 
 const yourid = require("yourid");
 
@@ -23,14 +24,18 @@ const GithubUserSchema = new mongoose.Schema({
         required: true,
     },
 
+    userBio: {
+        type: String,
+        default: "This user has no bio. 🥴",
+    },
+
     profilePicture: {
         type: String,
         required: true,
     },
 
-    uploadedImages: {
+    images: {
         type: Array,
-        default: [],
     },
 
     joinedAt: {
