@@ -137,3 +137,17 @@ a {
 }
 
 /* dashboard */
+
+/* mobile */
+
+@media screen and (max-width: 750px) {
+    #profilePicture {
+        width: 20%;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    #profilePicture {
+        width: 23%;
+    }
+}
