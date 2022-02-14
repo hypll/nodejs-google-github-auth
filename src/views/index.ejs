@@ -7,6 +7,22 @@
     <body>
         <!-- Navbar path: /partials/navbar -->
         <%- include('partials/navbar.ejs') %>
+        <!-- create an alert that says there can be some problems arosss the site -->
+        <div
+            class="alert alert-warning alert-dismissible fade show m-3"
+            role="alert"
+        >
+            <strong>Warning!</strong> There can be some problems across the
+            site.
+            <button
+                type="button"
+                class="close"
+                data-dismiss="alert"
+                aria-label="Close"
+            >
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
         <!-- Cover path: /**/ -->
         <section class="cover__head">
             <div class="cover__items">
@@ -71,5 +87,10 @@
         </section>
         <!-- Footer path: /partials/footer -->
         <%- include('partials/footer.ejs') %>
+        <script>
+            $(".alert").on("click", function () {
+                $(this).remove();
+            });
+        </script>
     </body>
 </html>
