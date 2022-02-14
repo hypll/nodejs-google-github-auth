@@ -20,17 +20,9 @@ a {
     /* color: white; */
 }
 
-.btn-google {
-    background-color: var(--google);
-    margin-left: 5px;
-}
-
-.btn-google:hover {
-    background-color: var(--google-hover);
-}
-
-.btn-google:focus {
-    background-color: var(--google);
+.btn-twitch:hover {
+    background-color: #6441a5;
+    color: #fff;
 }
 
 /* Cover Section */

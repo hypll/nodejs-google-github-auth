@@ -1,24 +1,30 @@
 const mongoose = require("mongoose");
+const Image = require("./image");
 
 const yourid = require("yourid");
 
-const SpotifyUserSchema = new mongoose.Schema({
-    spotifyId: {
+const UserSchema = new mongoose.Schema({
+    userId: {
         type: String,
         required: true,
         unique: true,
     },
 
-    displayId: {
-        type: String,
-        default: yourid.generate(10),
-    },
-
     displayName: {
-        type: String || "This user has no displayName.",
+        type: String,
     },
 
     userName: {
+        type: String,
+        required: true,
+    },
+
+    userBio: {
+        type: String,
+        default: "This user has no bio. 🥴",
+    },
+
+    provider: {
         type: String,
         required: true,
     },
@@ -28,9 +34,8 @@ const SpotifyUserSchema = new mongoose.Schema({
         required: true,
     },
 
-    uploadedImages: {
+    images: {
         type: Array,
-        default: [],
     },
 
     joinedAt: {
@@ -39,4 +44,4 @@ const SpotifyUserSchema = new mongoose.Schema({
     },
 });
 
-module.exports = mongoose.model("SpotifyUser", SpotifyUserSchema);
+module.exports = mongoose.model("User", UserSchema);

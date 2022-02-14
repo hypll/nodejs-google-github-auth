@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const passport = require("passport");
-const GithubUser = require("../database/models/GithubUser");
+const User = require("../database/models/User");
 
 router.get("/", (req, res) => {
     res.send(200);
@@ -30,6 +30,31 @@ router.get(
     }
 );
 
+// Google Auth
+
+router.get("/google", passport.authenticate("google", { scope: ["profile"] }));
+
+router.get(
+    "/google/callback",
+    passport.authenticate("google", { failureRedirect: "/login" }),
+    function (req, res) {
+        res.redirect("/dashboard");
+    }
+);
+
+// Twitch Auth
+
+router.get("/twitch", passport.authenticate("twitch"));
+
+router.get(
+    "/twitch/callback",
+    passport.authenticate("twitch", { failureRedirect: "/login" }),
+    function (req, res) {
+        // Successful authentication, redirect home.
+        res.redirect("/dashboard");
+    }
+);
+
 // Account Management
 
 router.get("/logout", (req, res) => {
@@ -38,16 +63,13 @@ router.get("/logout", (req, res) => {
 });
 
 router.get("/delete", (req, res) => {
-    GithubUser.findOneAndDelete(
-        { githubId: req.user.githubId },
-        (err, user) => {
-            if (err) {
-                res.send(err);
-            } else {
-                res.redirect("/");
-            }
+    User.findOneAndDelete({ userId: req.user.userId }, (err, user) => {
+        if (err) {
+            res.send(err);
+        } else {
+            res.redirect("/");
         }
-    );
+    });
 });
 
 module.exports = router;

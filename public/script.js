@@ -6,6 +6,10 @@ function githubLogin() {
     window.location.href = "/auth/github";
 }
 
+function login() {
+    window.location.href = "/login";
+}
+
 function logout() {
     window.location.href = "/auth/logout";
 }

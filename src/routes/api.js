@@ -4,7 +4,7 @@ const moment = require("moment");
 const multer = require("multer");
 const yourid = require("yourid");
 const Image = require("../database/models/image");
-const GithubUser = require("../database/models/GithubUser");
+const User = require("../database/models/User");
 
 router.get("/", (req, res) => {
     res.render("api");
@@ -82,7 +82,7 @@ router.get("/users", (req, res) => {
         });
     } else {
         const key = req.query.key;
-        GithubUser.find({}, (err, users) => {
+        User.find({}, (err, users) => {
             res.send(users);
         });
     }
@@ -116,7 +116,7 @@ router.get("/users/:id", (req, res) => {
             timestamp: new Date().toISOString(),
         });
     } else {
-        GithubUser.findOne({ displayId: req.params.id }, (err, user) => {
+        User.findOne({ userId: req.params.id }, (err, user) => {
             if (err) {
                 res.send("User was not found!");
             } else {
@@ -138,7 +138,7 @@ router.put("/update/bio/users/:id", (req, res) => {
             timestamp: new Date().toISOString(),
         });
     } else {
-        GithubUser.findOneAndUpdate(
+        User.findOneAndUpdate(
             { _id: req.params.id },
             { userBio: req.body.userBio },
             { new: true },
@@ -147,7 +147,7 @@ router.put("/update/bio/users/:id", (req, res) => {
                 if (err) {
                     res.send("User was not found!");
                 } else {
-                    res.redirect("/dashboard?updateKey=" + user.displayId);
+                    res.redirect("/dashboard?updateKey=" + user.userId);
                 }
             }
         );

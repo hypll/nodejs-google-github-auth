@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const Image = require("../database/models/image");
-const GithubUser = require("../database/models/GithubUser");
+const User = require("../database/models/User");
 const { ensureAuth, ensureGuest } = require("../middleware/requireAuth");
 
 router.get("/", ensureGuest, (req, res) => {
@@ -12,8 +12,7 @@ router.get("/", ensureGuest, (req, res) => {
 router.get("/dashboard", ensureAuth, async (req, res) => {
     res.render("dashboard", {
         id: req.user._id,
-        gitId: req.user.githubId,
-        disId: req.user.displayId,
+        userId: req.user.userId,
         disName: req.user.displayName,
         username: req.user.userName,
         profilePicture: req.user.profilePicture,
@@ -24,6 +23,12 @@ router.get("/dashboard", ensureAuth, async (req, res) => {
         images: await Image.find({
             user: req.user.id,
         }),
+    });
+});
+
+router.get("/login", ensureGuest, async (req, res) => {
+    res.render("login", {
+        isLoggedIn: req.isAuthenticated(),
     });
 });
 
@@ -48,9 +53,9 @@ router.get("/uploads/:id", (req, res) => {
 
 router.get("/profile/:id", (req, res) => {
     if (!req.isAuthenticated()) {
-        res.redirect("/auth/github");
+        res.redirect("/login");
     } else {
-        GithubUser.findOne({ displayId: req.params.id }, (err, user) => {
+        User.findOne({ displayId: req.params.id }, (err, user) => {
             if (err) {
                 res.send("User was not found!");
             } else {

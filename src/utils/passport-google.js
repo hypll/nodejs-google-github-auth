@@ -1,20 +1,21 @@
-var GitHubStrategy = require("passport-github").Strategy;
+const GoogleStrategy = require("passport-google-oauth2").Strategy;
 const passport = require("passport");
 const moment = require("moment");
 const User = require("../database/models/User");
 
 passport.use(
-    new GitHubStrategy(
+    new GoogleStrategy(
         {
-            clientID: process.env.GITHUB_CLIENT_ID,
-            clientSecret: process.env.GITHUB_CLIENT_SECRET,
-            callbackURL: process.env.GITHUB_CALLBACK_URL,
+            clientID: process.env.GOOGLE_CLIENT_ID,
+            clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+            callbackURL: process.env.GOOGLE_CALLBACK_URL,
+            passReqToCallback: true,
         },
-        async function (accessToken, refreshToken, profile, done) {
+        async function (request, accessToken, refreshToken, profile, done) {
             const newUser = {
                 userId: profile.id,
                 displayName: profile.displayName,
-                userName: profile.username,
+                userName: `${profile.name.givenName}-${profile.name.familyName}`,
                 provider: profile.provider,
                 profilePicture: profile.photos[0].value,
                 joinedAt: moment().format("MMMM Do YYYY"),

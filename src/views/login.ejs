@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<!-- Path: /login type: page details: n_/a -->
+<html lang="en">
+    <head>
+        <%- include('partials/head.ejs')%>
+        <title>Imagemagik - Login</title>
+    </head>
+    <body>
+        <%- include('partials/navbar.ejs')%>
+        <div class="mb-10"></div>
+
+        <!-- login buttons type: content details: n_/a -->
+
+        <section class="card m-4 text-center">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card-body">
+                            <h2 class="card-title">Login</h2>
+                            <p class="card-text">
+                                Login with your social media account
+                            </p>
+                            <a href="/auth/google" class="btn btn-danger">
+                                <i class="fab fa-google"></i>
+                                Google
+                            </a>
+                            <a href="/auth/github" class="btn btn-dark">
+                                <i class="fab fa-github"></i>
+                                Github
+                            </a>
+                            <a href="/auth/spotify" class="btn btn-success">
+                                <i class="fab fa-spotify"></i>
+                                Spotify
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- end of login buttons -->
+    </body>
+</html>

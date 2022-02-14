@@ -2688,6 +2688,9 @@ fieldset:disabled .btn {
     pointer-events: none;
     opacity: 0.65;
 }
+
+
+
 .btn-primary {
     color: #fff;
     background-color: #0d6efd;

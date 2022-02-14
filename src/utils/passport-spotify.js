@@ -1,5 +1,5 @@
 const SpotifyStrategy = require("passport-spotify").Strategy;
-const SpotifyUser = require("../database/models/SpotifyUser");
+const User = require("../database/models/User");
 const moment = require("moment");
 const passport = require("passport");
 
@@ -8,23 +8,24 @@ passport.use(
         {
             clientID: process.env.SPOTIFY_CLIENT_ID,
             clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
-            callbackURL: "/auth/spotify/callback",
+            callbackURL: process.env.SPOTIFY_CALLBACK_URL,
         },
         async function (accessToken, refreshToken, expires_in, profile, done) {
             const newUser = {
-                spotifyId: profile.id,
+                userId: profile.id,
                 displayName: profile.displayName,
                 userName: profile.username,
+                provider: profile.provider,
                 profilePicture: profile.photos[0].value,
                 joinedAt: moment().format("MMMM Do YYYY"),
             };
 
             try {
-                let user = await SpotifyUser.findOne({ spotifyId: profile.id });
+                let user = await User.findOne({ userId: profile.id });
                 if (user) {
                     done(null, user);
                 } else {
-                    user = await SpotifyUser.create(newUser);
+                    user = await User.create(newUser);
                     done(null, user);
                 }
             } catch (err) {
@@ -39,5 +40,5 @@ passport.serializeUser((user, done) => {
 });
 
 passport.deserializeUser((id, done) => {
-    SpotifyUser.findById(id, (err, user) => done(err, user));
+    User.findById(id, (err, user) => done(err, user));
 });
