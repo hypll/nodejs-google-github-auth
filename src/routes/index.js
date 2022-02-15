@@ -19,9 +19,8 @@ router.get("/dashboard", ensureAuth, async (req, res) => {
         bio: req.user.userBio,
         joinedAt: req.user.joinedAt,
         isLoggedIn: req.isAuthenticated(),
-        images: await Image.find({
-            uploadedBy: req.user._id,
-        }),
+
+        images: await Image.find({ user: req.user._id }),
     });
 });
 
@@ -35,11 +34,11 @@ router.get("/partners", ensureGuest, (req, res) => {
     const partners = [
         {
             id: 1,
-            name: "No one",
+            name: "No One",
             description:
-                "No one is a partner. This is a placeholder for the partners page.",
+                "No partners, this is just a placeholder for the partners page.",
             link: "/",
-            logo: "/upload.png",
+            logo: "https://via.placeholder.com/150",
         },
     ];
 

@@ -1,33 +1,63 @@
-<h1>Your images</h1>
+<section class="card">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card-body">
+                    <h2 class="card-title text-center">Your images</h2>
 
-<% if (id === uploadedBy) { %> <% if (images.length === 0) { %>
-<p>No images yet.</p>
-<% } else { %>
-<div class="row">
-    <% for (let image of images) { %>
-    <div class="col-md-4">
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title">
-                    <div class="card-title-text">
-                        <img
-                            src="<%- image.imagePath %>"
-                            alt="Image"
-                            width="40%"
-                        />
+                    <div class="row">
+                        <% for (let image of images) { %> <% if (id ==
+                        image.uploadedBy) { %>
+                        <div class="col-md-4">
+                            <div class="card mb-3">
+                                <img
+                                    src="<%- image.imagePath %>"
+                                    alt="<%- image.imageName %>"
+                                    width="20%"
+                                    class="card-img-top"
+                                />
+                                <div class="card-body">
+                                    <p class="card-text">
+                                        <%- image.imageName %>
+                                    </p>
+                                    <a
+                                        href="<%- image.imagePath  %> "
+                                        target="_blank"
+                                        class="btn btn-primary"
+                                    >
+                                        View
+                                    </a>
+                                    <button
+                                        type="button"
+                                        class="btn btn-danger"
+                                        data-toggle="modal"
+                                        id="delete"
+                                        data-target="#deleteModal"
+                                        data-id="<%- image.id %>"
+                                    >
+                                        Delete
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <% } %> <% } %>
                     </div>
-                    <h4><%- image.imageName %></h4>
-                </h5>
-
-                <a
-                    href="<%- image.imagePath %>"
-                    target="_blank"
-                    class="btn btn-primary btn-sm"
-                >
-                    <i class="fas fa-external-link"></i> Visit
-                </a>
+                    <script>
+                        document
+                            .getElementById("delete")
+                            .addEventListener("click", function (e) {
+                                e.preventDefault();
+                                if (
+                                    confirm(
+                                        "⚠ Are you sure you want to delete your account? \n ⛔ Once deleted, you will not be able to recover your account!"
+                                    )
+                                ) {
+                                    window.location.href = this.href;
+                                }
+                            });
+                    </script>
+                </div>
             </div>
         </div>
     </div>
-    <% } %>
-</div>
+</section>

@@ -110,7 +110,7 @@
                         e.preventDefault();
                         if (
                             confirm(
-                                "⚠ Are you sure you want to delete your account? \n ⛔ Once deleted, you will not be able to recover your account!"
+                                "Are you sure you want to delete your account? \n Once deleted, you will not be able to recover your account!"
                             )
                         ) {
                             window.location.href = this.href;
@@ -123,10 +123,6 @@
         <%- include('partials/upload.ejs') %>
 
         <!-- Images type: component  -->
-        <h1>Your images</h1>
-
-        <% if(!images) { %>
-        <p>You have no images yet!</p>
-        <% } %> <%- images %>
+        <%- include('partials/images.ejs') %>
     </body>
 </html>
