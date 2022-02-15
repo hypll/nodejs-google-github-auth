@@ -1,8 +1,6 @@
 const router = require("express").Router();
-const Image = require("../database/models/image");
 const User = require("../database/models/User");
-const path = require("path");
-const fs = require("fs");
+const Image = require("../database/models/image");
 const { ensureAuth, ensureGuest } = require("../middleware/requireAuth");
 
 router.get("/", ensureGuest, (req, res) => {
@@ -21,9 +19,8 @@ router.get("/dashboard", ensureAuth, async (req, res) => {
         bio: req.user.userBio,
         joinedAt: req.user.joinedAt,
         isLoggedIn: req.isAuthenticated(),
-
-        images: await Image.find({
-            user: req.user.id,
+        images: await Image.findOne({
+            uploadedBy: req.user._id,
         }),
     });
 });

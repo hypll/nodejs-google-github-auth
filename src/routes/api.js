@@ -22,12 +22,16 @@ const fileStorage = multer.diskStorage({
     },
 
     filename: (req, file, cb) => {
-        const id = yourid.generate(15);
+        const id = yourid.generate({
+            length: 11,
+            prefix: "",
+            includePrefix: false,
+        });
         const img = new Image({
             imageId: `${id}`,
             imageName: file.originalname,
             imagePath: `/uploads/${id}-${file.originalname}`,
-            uploadedBy: req.user.userName,
+            uploadedBy: req.user._id,
             uploadedAt: moment().format("MMMM Do YYYY, h:mm:ss a"),
         });
         img.save();
@@ -63,7 +67,11 @@ router.get("/uploads", (req, res) => {
         res.json({
             status: 204,
             error: "Unauthorized",
-            error_id: yourid.generate(30),
+            error_id: yourid.generate({
+                length: 11,
+                prefix: "",
+                includePrefix: false,
+            }),
             timestamp: new Date().toISOString(),
         });
     } else {
@@ -78,7 +86,11 @@ router.get("/users", (req, res) => {
         res.json({
             status: 204,
             error: "Unauthorized",
-            error_id: yourid.generate(30),
+            error_id: yourid.generate({
+                length: 11,
+                prefix: "",
+                includePrefix: false,
+            }),
             timestamp: new Date().toISOString(),
         });
     } else {
@@ -117,7 +129,7 @@ router.get("/users/:id", (req, res) => {
             timestamp: new Date().toISOString(),
         });
     } else {
-        User.findOne({ userId: req.params.id }, (err, user) => {
+        User.findOne({ id: req.params._id }, (err, user) => {
             if (err) {
                 res.send("User was not found!");
             } else {

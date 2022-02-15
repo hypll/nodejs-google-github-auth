@@ -18,9 +18,14 @@ const morgan = require("morgan");
 const PORT = process.env.PORT || 5000;
 
 //  Middlewares & Sessions
+// Settings & Middlewares
+app.use(express.static(path.join(__dirname, "public")));
 app.use(express.json());
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "src/views"));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(morgan("dev"));
+
 app.use(
     session({
         secret: "something",
@@ -45,12 +50,6 @@ const indexRouter = require("./src/routes/index");
 app.use("/api", apiRouter);
 app.use("/auth", authRouter);
 app.use("/", indexRouter);
-
-// Settings & Middlewares
-app.use(express.static(path.join(__dirname, "public")));
-app.use(express.json());
-app.set("view engine", "ejs");
-app.set("views", path.join(__dirname, "src/views"));
 
 // Start server
 app.listen(PORT, () => {

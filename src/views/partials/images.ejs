@@ -1,2 +1,33 @@
 <h1>Your images</h1>
-<p><%- images.uploadedBy %></p>
+
+<% if (id === uploadedBy) { %> <% if (images.length === 0) { %>
+<p>No images yet.</p>
+<% } else { %>
+<div class="row">
+    <% for (let image of images) { %>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <div class="card-title-text">
+                        <img
+                            src="<%- image.imagePath %>"
+                            alt="Image"
+                            width="40%"
+                        />
+                    </div>
+                    <h4><%- image.imageName %></h4>
+                </h5>
+
+                <a
+                    href="<%- image.imagePath %>"
+                    target="_blank"
+                    class="btn btn-primary btn-sm"
+                >
+                    <i class="fas fa-external-link"></i> Visit
+                </a>
+            </div>
+        </div>
+    </div>
+    <% } %>
+</div>

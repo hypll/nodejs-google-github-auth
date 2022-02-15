@@ -4,7 +4,6 @@ const ImageSchema = new mongoose.Schema({
     imageId: {
         type: String,
         required: true,
-        unique: true,
     },
 
     imageName: {
@@ -17,9 +16,10 @@ const ImageSchema = new mongoose.Schema({
         required: true,
     },
 
-    user: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "GithubUser",
+    uploadedBy: {
+        type: String,
+        required: true,
+        unique: false,
     },
 
     uploadedAt: {

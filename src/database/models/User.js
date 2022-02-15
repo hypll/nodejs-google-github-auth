@@ -10,17 +10,6 @@ const UserSchema = new mongoose.Schema({
         unique: true,
     },
 
-    magikId: {
-        type: String,
-        required: true,
-        unique: true,
-        default: yourid.generate({
-            length: 12,
-            prefix: "",
-            includePrefix: false,
-        }),
-    },
-
     displayName: {
         type: String,
     },
