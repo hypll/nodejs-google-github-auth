@@ -125,6 +125,8 @@
         <!-- Images type: component  -->
         <h1>Your images</h1>
 
-        <%- images %>
+        <% if(!images) { %>
+        <p>You have no images yet!</p>
+        <% } %> <%- images %>
     </body>
 </html>

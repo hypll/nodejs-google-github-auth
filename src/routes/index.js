@@ -19,7 +19,7 @@ router.get("/dashboard", ensureAuth, async (req, res) => {
         bio: req.user.userBio,
         joinedAt: req.user.joinedAt,
         isLoggedIn: req.isAuthenticated(),
-        images: await Image.findOne({
+        images: await Image.find({
             uploadedBy: req.user._id,
         }),
     });
