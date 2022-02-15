@@ -42,19 +42,6 @@ router.get(
     }
 );
 
-// Twitch Auth
-
-router.get("/twitch", passport.authenticate("twitch"));
-
-router.get(
-    "/twitch/callback",
-    passport.authenticate("twitch", { failureRedirect: "/login" }),
-    function (req, res) {
-        // Successful authentication, redirect home.
-        res.redirect("/dashboard");
-    }
-);
-
 // Account Management
 
 router.get("/logout", (req, res) => {

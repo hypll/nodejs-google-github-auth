@@ -35,11 +35,11 @@ router.get("/partners", ensureGuest, (req, res) => {
     const partners = [
         {
             id: 1,
-            name: "Top Bot List",
+            name: "No one",
             description:
-                "Discord is the easiest way to communicate over voice, video, and text.  Chat, hang out, and stay close with your friends and communities.",
-            link: "https://topbotlist.ml",
-            logo: "https://topbotlist.ml/img/logo.png",
+                "No one is a partner. This is a placeholder for the partners page.",
+            link: "/",
+            logo: "/upload.png",
         },
     ];
 
