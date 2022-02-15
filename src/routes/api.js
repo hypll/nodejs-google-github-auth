@@ -5,6 +5,7 @@ const multer = require("multer");
 const yourid = require("yourid");
 const Image = require("../database/models/image");
 const User = require("../database/models/User");
+const nodemailer = require("nodemailer");
 
 router.get("/", (req, res) => {
     res.render("api");

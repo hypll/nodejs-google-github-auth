@@ -4,7 +4,7 @@ require("./src/utils/logger");
 require("./src/utils/passport-github");
 require("./src/utils/passport-spotify");
 require("./src/utils/passport-google");
-// require("./src/utils/passport-twitch");
+require("./src/utils/passport-twitch");
 const express = require("express");
 const path = require("path");
 const app = express();
@@ -14,11 +14,13 @@ const bodyParser = require("body-parser");
 const passport = require("passport");
 const mongoose = require("mongoose");
 const MongoStore = require("connect-mongo")(session);
+const morgan = require("morgan");
 const PORT = process.env.PORT || 5000;
 
 //  Middlewares & Sessions
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(morgan("dev"));
 app.use(
     session({
         secret: "something",
