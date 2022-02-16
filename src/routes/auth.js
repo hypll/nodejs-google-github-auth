@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const passport = require("passport");
 const User = require("../database/models/User");
+const Image = require("../database/models/image");
 
 router.get("/", (req, res) => {
     res.send(200);
@@ -55,6 +56,17 @@ router.get("/delete", (req, res) => {
             res.send(err);
         } else {
             res.redirect("/");
+        }
+    });
+});
+
+router.get("/delete/image", (req, res) => {
+    Image.findOneAndDelete({ id: req.params.id }, (err, image) => {
+        if (err) {
+            res.send(err);
+            res.redirect("/dashboard?delete=false");
+        } else {
+            res.redirect("/dashboard?deleted=true&id=" + image.id);
         }
     });
 });

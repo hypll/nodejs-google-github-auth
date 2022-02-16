@@ -4,7 +4,15 @@
             <div class="col-md-12">
                 <div class="card-body">
                     <h2 class="card-title text-center">Your images</h2>
-
+                    <% if (images.length == 0) { %>
+                    <h6
+                        class="text-center text-secondary mb-3"
+                        style="font-size: 15px"
+                    >
+                        You dont have any images.
+                        <span>Upload?</span>
+                    </h6>
+                    <% } %>
                     <div class="row">
                         <% for (let image of images) { %> <% if (id ==
                         image.uploadedBy) { %>
@@ -25,37 +33,38 @@
                                         target="_blank"
                                         class="btn btn-primary"
                                     >
-                                        View
+                                        <i class="fa fa-eye"></i> View
                                     </a>
-                                    <button
+                                    <a
                                         type="button"
                                         class="btn btn-danger"
                                         data-toggle="modal"
-                                        id="delete"
+                                        href="/auth/delete/image?id=<%- image.id %>"
+                                        id="deleteBtn"
                                         data-target="#deleteModal"
                                         data-id="<%- image.id %>"
                                     >
-                                        Delete
-                                    </button>
+                                        <i class="fa fa-trash-alt"></i> Delete
+                                    </a>
                                 </div>
                             </div>
                         </div>
+                        <script>
+                            document
+                                .getElementById("deleteBtn")
+                                .addEventListener("click", function (e) {
+                                    e.preventDefault();
+                                    if (
+                                        confirm(
+                                            "Are you sure you want to delete your image? \n\n Once deleted, you will not be able to recover your image!"
+                                        )
+                                    ) {
+                                        window.location.href = this.href;
+                                    }
+                                });
+                        </script>
                         <% } %> <% } %>
                     </div>
-                    <script>
-                        document
-                            .getElementById("delete")
-                            .addEventListener("click", function (e) {
-                                e.preventDefault();
-                                if (
-                                    confirm(
-                                        "⚠ Are you sure you want to delete your account? \n ⛔ Once deleted, you will not be able to recover your account!"
-                                    )
-                                ) {
-                                    window.location.href = this.href;
-                                }
-                            });
-                    </script>
                 </div>
             </div>
         </div>

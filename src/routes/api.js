@@ -14,7 +14,7 @@ router.get("/", (req, res) => {
 // Upload images with post request
 
 // the maximum size of the file to be uploaded
-var maxSize = 1 * 1000 * 1000;
+const maxSize = 1 * 1000 * 1000;
 
 const fileStorage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -40,6 +40,7 @@ const fileStorage = multer.diskStorage({
 
     onFileUploadStart: function (file, req, res) {
         if (req.files.file.length > maxSize) {
+            alert("File is too big!");
             return false;
         }
     },
