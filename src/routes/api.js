@@ -5,6 +5,7 @@ const multer = require("multer");
 const yourid = require("yourid");
 const Image = require("../database/models/image");
 const User = require("../database/models/User");
+const FileSize = require("filesize");
 const nodemailer = require("nodemailer");
 
 router.get("/", (req, res) => {
@@ -27,14 +28,19 @@ const fileStorage = multer.diskStorage({
             prefix: "",
             includePrefix: false,
         });
-        const img = new Image({
-            imageId: `${id}`,
-            imageName: file.originalname,
-            imagePath: `/uploads/${id}-${file.originalname}`,
-            uploadedBy: req.user._id,
-            uploadedAt: moment().format("MMMM Do YYYY, h:mm:ss a"),
-        });
-        img.save();
+
+        try {
+            const img = new Image({
+                imageId: `${id}`,
+                imageName: file.originalname,
+                imagePath: `/uploads/${id}-${file.originalname}`,
+                uploadedBy: req.user._id,
+                uploadedAt: moment().format("MMMM Do YYYY, h:mm:ss a"),
+            });
+            img.save();
+        } catch (err) {
+            console.log(err);
+        }
         cb(null, `${id}-${file.originalname}`);
     },
 

@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 const Image = require("./image");
-
 const yourid = require("yourid");
 
 const UserSchema = new mongoose.Schema({
@@ -8,6 +7,17 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: true,
         unique: true,
+    },
+
+    userMagikId: {
+        type: String,
+        required: true,
+        unique: true,
+        default: yourid.generate({
+            length: 12,
+            prefix: "",
+            includePrefix: false,
+        }),
     },
 
     displayName: {

@@ -16,6 +16,7 @@ router.get("/dashboard", ensureAuth, async (req, res) => {
         disName: req.user.displayName,
         username: req.user.userName,
         profilePicture: req.user.profilePicture,
+        userMagikId: req.user.userMagikId,
         bio: req.user.userBio,
         joinedAt: req.user.joinedAt,
         isLoggedIn: req.isAuthenticated(),
