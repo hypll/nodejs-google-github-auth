@@ -96,10 +96,31 @@ router.get("/view/:id", ensureGuest, (req, res, next) => {
             res.send(err);
         } else {
             res.render("view", {
+                imageId: image.imageId,
                 image: image,
                 name: image.imageName,
                 url: image.imagePath,
                 uploadedAt: image.uploadedAt,
+                host: process.env.HOST,
+                isLoggedIn: req.isAuthenticated(),
+            });
+        }
+    });
+});
+
+router.get("/share/:id", ensureGuest, (req, res, next) => {
+    Image.findOne({ imageId: req.params.id }, (err, image) => {
+        if (err) {
+            res.send(err);
+        } else {
+            res.render("share", {
+                imageId: image.imageId,
+                image: image,
+                name: image.imageName,
+                url: image.imagePath,
+                uploadedAt: image.uploadedAt,
+                host: process.env.HOST,
+                isLoggedIn: req.isAuthenticated(),
             });
         }
     });

@@ -2,6 +2,7 @@ const SpotifyStrategy = require("passport-spotify").Strategy;
 const User = require("../database/models/User");
 const moment = require("moment");
 const passport = require("passport");
+const yourid = require("yourid");
 
 passport.use(
     new SpotifyStrategy(
@@ -13,6 +14,11 @@ passport.use(
         async function (accessToken, refreshToken, expires_in, profile, done) {
             const newUser = {
                 userId: profile.id,
+                userMagikId: yourid.generate({
+                    length: 11,
+                    prefix: "",
+                    includePrefix: false,
+                }),
                 displayName: profile.displayName,
                 userName: profile.username,
                 provider: profile.provider,

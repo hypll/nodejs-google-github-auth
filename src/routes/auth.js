@@ -60,14 +60,21 @@ router.get("/delete", (req, res) => {
     });
 });
 
+// router.get("/delete/image", (req, res) => {
+//     Image.findOneAndDelete({ id: req.params.id }, (err, image) => {
+//         if (err) {
+//             res.send(err);
+//             res.redirect("/dashboard?delete=false");
+//         } else {
+//             res.redirect("/dashboard?deleted=true&id=" + image.id);
+//         }
+//     });
+// });
+
+// create a route that can delete an image with and query param
 router.get("/delete/image", (req, res) => {
-    Image.findOneAndDelete({ id: req.params.id }, (err, image) => {
-        if (err) {
-            res.send(err);
-            res.redirect("/dashboard?delete=false");
-        } else {
-            res.redirect("/dashboard?deleted=true&id=" + image.id);
-        }
+    Image.findOneAndDelete({ id: req.query.id }, (err, image) => {
+        res.send(image);
     });
 });
 

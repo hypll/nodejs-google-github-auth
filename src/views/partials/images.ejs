@@ -1,3 +1,17 @@
+<script>
+    document
+        .getElementById("deleteBtn")
+        .addEventListener("click", function (e) {
+            e.preventDefault();
+            if (
+                confirm(
+                    "Are you sure you want to delete your image? \n\n Once deleted, you will not be able to recover your image!"
+                )
+            ) {
+                window.location.href = this.href;
+            }
+        });
+</script>
 <section id="images" class="card">
     <div class="container">
         <div class="row">
@@ -29,7 +43,7 @@
                                         <%- image.imageName %>
                                     </p>
                                     <a
-                                        href="<%- image.imagePath  %> "
+                                        href="/view/<%- image.imageId %>"
                                         target="_blank"
                                         class="btn btn-primary"
                                     >
@@ -49,20 +63,6 @@
                                 </div>
                             </div>
                         </div>
-                        <script>
-                            document
-                                .getElementById("deleteBtn")
-                                .addEventListener("click", function (e) {
-                                    e.preventDefault();
-                                    if (
-                                        confirm(
-                                            "Are you sure you want to delete your image? \n\n Once deleted, you will not be able to recover your image!"
-                                        )
-                                    ) {
-                                        window.location.href = this.href;
-                                    }
-                                });
-                        </script>
                         <% } %> <% } %>
                     </div>
                 </div>

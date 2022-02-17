@@ -18,53 +18,19 @@
     <body>
         <%- include('partials/navbar.ejs') %>
 
-        <section
-            class="text-center mb-3"
-            style="background-color: lightslategray"
-        >
+        <section class="text-center mb-3 mt-5" style="font-size: xx-large">
             <div class="row">
-                <div class="col-md-12">
-                    <img
-                        src="<%- url %>"
-                        alt="<%- name %>"
-                        class="img-fluid"
-                        width="30%"
-                    />
-                </div>
+                <label for="share"> Share to: </label>
+                <a
+                    href="https://twitter.com/intent/tweet?text=Check%20out%20this%20image%20I%20just%20uploaded%20to%20imagemagik%20%23imagemagiktk&url=https://www.imagemagik.tk/view/<%-
+                imageId %>"
+                    target="_blank"
+                >
+                    <i class="fab fa-twitter"></i>
+                </a>
             </div>
         </section>
 
-        <section class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <h1 class="text-center"><%- name %></h1>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <p class="text-center">
-                        Uploaded on <strong><%- uploadedAt %></strong>
-                    </p>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <p class="text-center">
-                        <a
-                            href="<%- url %>"
-                            download="<%- name %>"
-                            class="btn btn-primary"
-                        >
-                            <i class="fa fa-download"></i> Download
-                        </a>
-
-                        <a onclick="sharetab()" class="btn btn-success"
-                            ><i class="fa-solid fa-share"></i> Share</a
-                        >
-                    </p>
-                </div>
-            </div>
-        </section>
         <style>
             @media screen and (max-width: 768px) {
                 .img-fluid {

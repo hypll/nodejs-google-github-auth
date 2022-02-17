@@ -2,6 +2,7 @@ var GitHubStrategy = require("passport-github").Strategy;
 const passport = require("passport");
 const moment = require("moment");
 const User = require("../database/models/User");
+const yourid = require("yourid");
 
 passport.use(
     new GitHubStrategy(
@@ -13,6 +14,11 @@ passport.use(
         async function (accessToken, refreshToken, profile, done) {
             const newUser = {
                 userId: profile.id,
+                userMagikId: yourid.generate({
+                    length: 11,
+                    prefix: "",
+                    includePrefix: false,
+                }),
                 displayName: profile.displayName,
                 userName: profile.username,
                 provider: profile.provider,
