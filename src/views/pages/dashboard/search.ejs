@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <%- include("../../partials/head.ejs") %>
+        <title>Dashboard - Search</title>
+    </head>
+    <body>
+        <%- include("../../partials/navbar.ejs") %>
+
+        <!-- create a section for the query -->
+        <section class="container mt-2">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1>Search</h1>
+                    <!-- if the search contains something from the username then display it -->
+                    <% if (search.length > 0) { %>
+                    <p>Search results for: <strong><%= search %></strong></p>
+                    <% } %>
+
+                    <!-- if the search includes something from the username then display it -->
+                    <% if (search == username) { %>
+                    <div class="alert alert-danger" role="alert">
+                        <strong>Oh snap!</strong> You cannot search for
+                        yourself.
+                    </div>
+                    <% } %>
+                </div>
+            </div>
+        </section>
+    </body>
+</html>

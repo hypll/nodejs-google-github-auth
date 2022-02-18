@@ -61,6 +61,15 @@
                         <a onclick="sharetab()" class="btn btn-success"
                             ><i class="fa-solid fa-share"></i> Share</a
                         >
+
+                        <% if (userRole == 'admin') { %>
+                        <a
+                            href="/auth/delete/image/<%- imageId %>"
+                            class="btn btn-danger"
+                        >
+                            <i class="fa fa-trash-alt"></i> Delete
+                        </a>
+                        <% } %>
                     </p>
                 </div>
             </div>

@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <%- include("partials/head.ejs") %>
+        <%- include("../../partials/head.ejs") %>
 
         <title>Dashboard - <%- username %></title>
     </head>
     <body>
         <!-- Navbar path: /partials/navbar -->
-        <%- include('partials/navbar.ejs') %>
+        <%- include('../../partials/navbar.ejs') %>
 
         <section class="card">
             <div class="container">
@@ -140,6 +140,21 @@
                                     </button>
                                 </div>
 
+                                <% if (userRole == "admin") { %>
+                                <div class="mb-4">
+                                    <strong>Admin</strong>
+                                    <p class="card-text" style="color: gray">
+                                        Go to the admin panel to manage users
+                                    </p>
+                                    <a
+                                        href="/dashboard/admin"
+                                        class="btn btn-primary btn-sm"
+                                    >
+                                        Go to Admin Panel
+                                    </a>
+                                </div>
+                                <% } %>
+
                                 <div class="mb-4">
                                     <strong>Joined</strong>
                                     <p class="card-text" style="color: gray">
@@ -199,9 +214,9 @@
         </section>
 
         <!-- Upload type: component path: partials/upload -->
-        <%- include('partials/upload.ejs') %>
+        <%- include('../../partials/upload.ejs') %>
 
         <!-- Images type: component  -->
-        <%- include('partials/images.ejs') %>
+        <%- include('../../partials/images.ejs') %>
     </body>
 </html>

@@ -60,21 +60,23 @@ router.get("/delete", (req, res) => {
     });
 });
 
-// router.get("/delete/image", (req, res) => {
-//     Image.findOneAndDelete({ id: req.params.id }, (err, image) => {
-//         if (err) {
-//             res.send(err);
-//             res.redirect("/dashboard?delete=false");
-//         } else {
-//             res.redirect("/dashboard?deleted=true&id=" + image.id);
-//         }
-//     });
-// });
+router.get("/delete/image/:id", (req, res) => {
+    Image.findOneAndDelete({ _id: req.params.id }, (err, user) => {
+        if (err) {
+            res.send(err);
+        } else {
+            res.redirect("/dashboard?deleted=true&id=" + user._id);
+        }
+    });
+});
 
-// create a route that can delete an image with and query param
-router.get("/delete/image", (req, res) => {
-    Image.findOneAndDelete({ id: req.query.id }, (err, image) => {
-        res.send(image);
+router.get("/delete/user/:id", (req, res) => {
+    User.findOneAndDelete({ _id: req.params.id }, (err, user) => {
+        if (err) {
+            res.send(err);
+        } else {
+            res.redirect("/dashboard/admin?deleted=true&id=" + user._id);
+        }
     });
 });
 

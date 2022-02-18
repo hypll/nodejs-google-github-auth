@@ -1,7 +1,11 @@
 const router = require("express").Router();
 const User = require("../database/models/User");
 const Image = require("../database/models/image");
-const { ensureAuth, ensureGuest } = require("../middleware/requireAuth");
+const {
+    ensureAuth,
+    ensureGuest,
+    ensureAdmin,
+} = require("../middleware/requireAuth");
 
 router.get("/", ensureGuest, (req, res) => {
     res.render("index", {
@@ -10,9 +14,28 @@ router.get("/", ensureGuest, (req, res) => {
 });
 
 router.get("/dashboard", ensureAuth, async (req, res) => {
-    res.render("dashboard", {
+    res.render("pages/dashboard/index", {
         id: req.user._id,
         userId: req.user.userId,
+        userRole: req.user.userRole,
+        disName: req.user.displayName,
+        username: req.user.userName,
+        profilePicture: req.user.profilePicture,
+        userMagikId: req.user.userMagikId,
+        bio: req.user.userBio,
+        joinedAt: req.user.joinedAt,
+        allUsers: "/api/users",
+        isLoggedIn: req.isAuthenticated(),
+
+        images: await Image.find({ user: req.user._id }),
+    });
+});
+
+router.get("/dashboard/admin", ensureAdmin, async (req, res) => {
+    res.render("pages/dashboard/admin", {
+        id: req.user._id,
+        userId: req.user.userId,
+        userRole: req.user.userRole,
         disName: req.user.displayName,
         username: req.user.userName,
         profilePicture: req.user.profilePicture,
@@ -21,7 +44,25 @@ router.get("/dashboard", ensureAuth, async (req, res) => {
         joinedAt: req.user.joinedAt,
         isLoggedIn: req.isAuthenticated(),
 
-        images: await Image.find({ user: req.user._id }),
+        users: await User.find({ user: req.user._id }),
+    });
+});
+
+router.get("/dashboard/admin/search", ensureAdmin, async (req, res) => {
+    res.render("pages/dashboard/search", {
+        id: req.user._id,
+        userId: req.user.userId,
+        userRole: req.user.userRole,
+        disName: req.user.displayName,
+        username: req.user.userName,
+        profilePicture: req.user.profilePicture,
+        userMagikId: req.user.userMagikId,
+        bio: req.user.userBio,
+        joinedAt: req.user.joinedAt,
+        isLoggedIn: req.isAuthenticated(),
+        search: req.query.target,
+
+        users: await User.find({ user: req.user._id }),
     });
 });
 
@@ -96,7 +137,9 @@ router.get("/view/:id", ensureGuest, (req, res, next) => {
             res.send(err);
         } else {
             res.render("view", {
-                imageId: image.imageId,
+                id: req.user._id,
+                userRole: req.user.userRole,
+                imageId: image._id,
                 image: image,
                 name: image.imageName,
                 url: image.imagePath,

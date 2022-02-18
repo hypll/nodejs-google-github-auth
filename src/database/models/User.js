@@ -12,6 +12,11 @@ const UserSchema = new mongoose.Schema({
         required: true,
     },
 
+    userRole: {
+        type: String,
+        default: "user",
+    },
+
     displayName: {
         type: String,
     },
