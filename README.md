@@ -7,7 +7,7 @@
 <h3 align="center">Imagemagik</h3>
 
 <p align="center">
-  Free, safe, and secure image hosting provider for everyone!
+  The free & paid image hosting provider.
   <br>
 
 <div align="center">
@@ -23,10 +23,10 @@
 Download the source code
 
 ```bash
-https://github.com/lassv/imagemagik
+https://github.com/imagemagik/magik
 ```
 
-Install dependencies in all the folders
+Install dependencies
 
 ```bash
 npm install
