@@ -149,7 +149,7 @@ router.get("/users/:id", (req, res) => {
 // User Update
 
 //  create a route that updates the user's bio
-router.put("/update/bio/users/:id", (req, res) => {
+router.get("/update/bio/:id", (req, res) => {
     if (!req.isAuthenticated()) {
         res.json({
             status: 204,
@@ -172,6 +172,36 @@ router.put("/update/bio/users/:id", (req, res) => {
             }
         );
     }
+});
+
+router.get("/delete", (req, res) => {
+    User.findOneAndDelete({ userId: req.user.userId }, (err, user) => {
+        if (err) {
+            res.send(err);
+        } else {
+            res.redirect("/");
+        }
+    });
+});
+
+router.get("/delete/image/:id", (req, res) => {
+    Image.findOneAndDelete({ _id: req.params.id }, (err, user) => {
+        if (err) {
+            res.send(err);
+        } else {
+            res.redirect("/dashboard?deleted=true&id=" + user._id);
+        }
+    });
+});
+
+router.get("/delete/user/:id", (req, res) => {
+    User.findOneAndDelete({ _id: req.params.id }, (err, user) => {
+        if (err) {
+            res.send(err);
+        } else {
+            res.redirect("/dashboard/admin?deleted=true&id=" + user._id);
+        }
+    });
 });
 
 module.exports = router;

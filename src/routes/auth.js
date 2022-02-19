@@ -50,34 +50,4 @@ router.get("/logout", (req, res) => {
     res.redirect("/");
 });
 
-router.get("/delete", (req, res) => {
-    User.findOneAndDelete({ userId: req.user.userId }, (err, user) => {
-        if (err) {
-            res.send(err);
-        } else {
-            res.redirect("/");
-        }
-    });
-});
-
-router.get("/delete/image/:id", (req, res) => {
-    Image.findOneAndDelete({ _id: req.params.id }, (err, user) => {
-        if (err) {
-            res.send(err);
-        } else {
-            res.redirect("/dashboard?deleted=true&id=" + user._id);
-        }
-    });
-});
-
-router.get("/delete/user/:id", (req, res) => {
-    User.findOneAndDelete({ _id: req.params.id }, (err, user) => {
-        if (err) {
-            res.send(err);
-        } else {
-            res.redirect("/dashboard/admin?deleted=true&id=" + user._id);
-        }
-    });
-});
-
 module.exports = router;

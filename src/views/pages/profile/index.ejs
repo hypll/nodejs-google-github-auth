@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <!--  -->
+        <link
+            rel="stylesheet"
+            href="/plugins/bootstrap/css/bootstrap.min.css"
+        />
+        <link rel="stylesheet" href="/plugins/fontawesome/css/all.css" />
+        <!-- JavaScript Bundle with Popper -->
+        <script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+        <title>Profile - <%- disName %></title>
+    </head>
+    <body>
+        <!-- Navbar path: /partials/navbar -->
+        <%- include('../../partials/navbar.ejs') %>
+
+        <!-- create section for the user profile -->
+        <section class="container-fluid mt-3">
+            <div class="container mb-4">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h1 class="text-center"><%- disName %></h1>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mb-3">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <img
+                                src="<%- profilePicture %>"
+                                alt="<%- username %>"
+                                class="img-fluid"
+                                style="max-width: 30%"
+                            />
+                        </div>
+                        <div class="col-md-8">
+                            <h2 class="text-center"><%- disName %></h2>
+                            <p class="text-center"><%- bio %></p>
+                            <hr style="opacity: 0.1" />
+                            <div class="text-center">
+                                <span><strong>Joined</strong></span>
+                                <span class="text-secondary d-block">
+                                    <%- joinedAt %>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <% if (userId == trueUserId) { %>
+                    <button
+                        onclick="window.location.href='/dashboard'"
+                        class="btn btn-primary btn-block"
+                    >
+                        <i class="fa fa-pencil"></i> Edit Profile
+                    </button>
+                    <% } %>
+                    <button class="btn btn-secondary btn-block" id="copy">
+                        🔗 Copy link
+                    </button>
+                </div>
+            </div>
+        </section>
+        <p><%- images %></p>
+        <!-- all the user images -->
+        <!-- <section class="container-fluid mt-3">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2 class="text-center">Images</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="card mb-3">
+                                    <div class="card-body">
+                                        <img
+                                            src="https://www.imagemagik.tk/upload.png"
+                                            alt="url"
+                                            class="img-fluid"
+                                            style="max-width: 100%"
+                                        />
+                                        <div class="text-center">
+                                            <span class="text-secondary">
+                                                Title
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section> -->
+
+        <script>
+            function logout() {
+                window.location.href = "/auth/logout";
+            }
+
+            function upload() {
+                window.location.href = "/dashboard#upload";
+            }
+
+            const copyBtn = document.getElementById("copy");
+
+            copyBtn.addEventListener("click", () => {
+                const val = "<%- host %>/profile/<%- magikId %>";
+                navigator.clipboard.writeText(val);
+                copyBtn.innerText = "✅ Copied!";
+                copyBtn.classList.add("Copied");
+                setTimeout(() => {
+                    copyBtn.innerText = "🔗 Copy link";
+                    copyBtn.classList.remove("copied");
+                }, 2000);
+            });
+        </script>
+    </body>
+</html>

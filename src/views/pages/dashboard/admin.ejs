@@ -60,6 +60,7 @@
                 </div>
                 <div class="col-md-12">
                     <% for (let user of users) { %>
+
                     <div class="card mb-3">
                         <div class="card-body">
                             <h5 class="card-title"><%- user.userName %></h5>
@@ -88,9 +89,10 @@
                                 </p>
                             </div>
                             <a
-                                href="/auth/delete/user/<%- user._id %> "
+                                href="/api/delete/user/<%- user._id %> "
+                                onclick="return confirm('Are you sure you want to delete this user?')"
                                 class="btn btn-danger"
-                                id="delete-<%- user._id %>"
+                                id="<%- user._id %> "
                             >
                                 <i class="fa fa-trash-alt"></i> Delete
                             </a>
@@ -102,13 +104,13 @@
             </div>
         </section>
         <script>
-            const deleteBtn = document.getElementById("delete-<%- id %>");
+            if (window.location.pathname === "/dashboard/admin") {
+                document.getElementById("dashboard").classList.add("active");
+            }
 
-            deleteBtn.addEventListener("click", () => {
-                confirm(
-                    "Are you sure you want to delete this user? \n\n Once deleted, you will not be able to recover your user!"
-                );
-            });
+            if (window.location.pathname === "/dashboard/admin") {
+                document.getElementById("home").classList.remove("active");
+            }
 
             const searchBtn = document.getElementById("search-button");
 
@@ -120,6 +122,14 @@
                     target = "_blank";
                 }
             });
+
+            function logout() {
+                window.location.href = "/auth/logout";
+            }
+
+            function upload() {
+                window.location.href = "/dashboard#upload";
+            }
         </script>
     </body>
 </html>

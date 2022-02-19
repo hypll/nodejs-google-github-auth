@@ -26,6 +26,7 @@ router.get("/dashboard", ensureAuth, async (req, res) => {
         joinedAt: req.user.joinedAt,
         allUsers: "/api/users",
         isLoggedIn: req.isAuthenticated(),
+        host: process.env.HOST,
 
         images: await Image.find({ user: req.user._id }),
     });
@@ -114,21 +115,41 @@ router.get("/uploads/:id", (req, res) => {
     }
 });
 
-router.get("/profile/:id", (req, res) => {
-    if (!req.isAuthenticated()) {
-        res.redirect("/login");
-    } else {
-        User.findOne({ displayId: req.params.id }, (err, user) => {
-            if (err) {
-                res.send("User was not found!");
-            } else {
-                res.render("profile", {
-                    username: user.userName,
-                    isLoggedIn: req.isAuthenticated(),
-                });
-            }
-        });
-    }
+router.get("/profile/:id", async (req, res) => {
+    User.findOne({ userMagikId: req.params.id }, (err, user) => {
+        if (err) {
+            res.send(err);
+        } else {
+            res.render("pages/profile/index", {
+                id: user._id,
+                userId: user.userId,
+                userRole: user.userRole,
+                disName: user.displayName,
+                username: user.userName,
+                magikId: user.userMagikId,
+                profilePicture: user.profilePicture,
+                userMagikId: user.userMagikId,
+                bio: user.userBio,
+                joinedAt: user.joinedAt,
+                host: process.env.HOST,
+                isLoggedIn: req.isAuthenticated(),
+
+                // The user there are logged in, and have access to the profile of the user that is being looked at.
+                trueId: req.user._id,
+                trueUserName: req.user.userName,
+                trueUserId: req.user.userId,
+                trueUserRole: req.user.userRole,
+                trueMagikId: req.user.magikId,
+                trueProfilePicture: req.user.profilePicture,
+                trueUserMagikId: req.user.userMagikId,
+                trueBio: req.user.userBio,
+                trueJoinedAt: req.user.joinedAt,
+
+                images: "Hello, world!",
+                // images: await Image.find({ user: req.user._id }),
+            });
+        }
+    });
 });
 
 router.get("/view/:id", ensureGuest, (req, res, next) => {

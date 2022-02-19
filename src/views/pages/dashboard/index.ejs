@@ -19,21 +19,20 @@
                             <a href="/dashboard#upload" class="btn btn-primary"
                                 >Upload</a
                             >
-                            <button
+                            <a
                                 href="/dashboard#images"
                                 class="btn btn-secondary"
                             >
                                 Images
-                            </button>
-                            <button
+                            </a>
+                            <a
                                 type="button"
-                                href="/profile/<%- id %>"
+                                href="/profile/<%- userMagikId %>"
                                 target="_blank"
                                 class="btn btn-success"
-                                disabled
                             >
                                 <i class="fas fa-external-link"></i> Profile
-                            </button>
+                            </a>
                         </div>
                         <div class="card-body">
                             <h2 class="card-title">Your Account</h2>
@@ -169,7 +168,7 @@
                             >
                             <a
                                 id="delete"
-                                href="/auth/delete"
+                                onclick="deleteAccountWithConfirm()"
                                 class="btn btn-warning"
                                 ><i class="fa fa-trash"></i> Delete Account</a
                             >
@@ -178,21 +177,17 @@
                 </div>
             </div>
             <script>
-                document
-                    .getElementById("delete")
-                    .addEventListener("click", function (e) {
-                        e.preventDefault();
-                        if (
-                            confirm(
-                                "Are you sure you want to delete your account? \n Once deleted, you will not be able to recover your account!"
-                            )
-                        ) {
-                            window.location.href = this.href;
-                        }
-                    });
+                function deleteAccountWithConfirm() {
+                    if (
+                        confirm(
+                            "Are you sure you want to delete your account? \n This action cannot be undone."
+                        )
+                    ) {
+                        window.location.href = "/api/delete";
+                    }
+                }
 
                 const copyBtn = document.getElementById("copy");
-
                 copyBtn.addEventListener("click", () => {
                     const val = "<%- userMagikId %>";
                     navigator.clipboard.writeText(val);

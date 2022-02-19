@@ -50,12 +50,19 @@
                                         <i class="fa fa-eye"></i> View
                                     </a>
                                     <a
+                                        class="btn btn-secondary"
+                                        onclick="navigator.clipboard.writeText('<%- host %>/view/<%- image.imageId %>'); innerText = '✅ Copied!'; setTimeout(() => { innerText = '🔗 Copy link'; }, 2000);"
+                                        data-id="<%- image._id %>"
+                                    >
+                                        🔗 Copy link
+                                    </a>
+                                    <a
                                         type="button"
                                         class="btn btn-danger"
                                         data-toggle="modal"
-                                        href="/auth/delete/image/<%- image._id %>"
-                                        id="deleteBtn"
-                                        data-target="#deleteModal"
+                                        href="/api/delete/image/<%- image._id %>"
+                                        onclick="return confirm('Are you sure you want to delete this image?');"
+                                        data-target="<%- image._id %>"
                                         data-id="<%- image.id %>"
                                     >
                                         <i class="fa fa-trash-alt"></i> Delete
