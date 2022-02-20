@@ -45,6 +45,11 @@ const UserSchema = new mongoose.Schema({
         type: Array,
     },
 
+    banned: {
+        type: Boolean,
+        default: false,
+    },
+
     joinedAt: {
         type: String,
         required: true,

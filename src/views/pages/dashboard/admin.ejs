@@ -61,7 +61,7 @@
                 <div class="col-md-12">
                     <% for (let user of users) { %>
 
-                    <div class="card mb-3">
+                    <div class="card mb-3" data-id="<%- user._id %>">
                         <div class="card-body">
                             <h5 class="card-title"><%- user.userName %></h5>
                             <p class="card-text text-secondary">
@@ -84,10 +84,25 @@
                                     %> (<%- user.userId %>)
                                 </p>
                                 <p class="card-text">
+                                    <strong>Banned:</strong> <%- user.banned %>
+                                </p>
+                                <p class="card-text">
                                     <strong>Created:</strong> <%- user.joinedAt
                                     %>
                                 </p>
+                                <div class="col-md-4">
+                                    <img
+                                        src="<%- user.profilePicture %>"
+                                        alt="<%- username %>"
+                                        class="img-fluid"
+                                        style="
+                                            max-width: 30%;
+                                            border-radius: 50%;
+                                        "
+                                    />
+                                </div>
                             </div>
+
                             <a
                                 href="/api/delete/user/<%- user._id %> "
                                 onclick="return confirm('Are you sure you want to delete this user?')"
@@ -95,6 +110,24 @@
                                 id="<%- user._id %> "
                             >
                                 <i class="fa fa-trash-alt"></i> Delete
+                            </a>
+                            <button
+                                class="btn btn-secondary"
+                                href="/api/ban/user/<%- user._id %>"
+                                onclick="return confirm('Are you sure you want to ban this user?')"
+                                disabled
+                            >
+                                <i class="fa-solid fa-hammer"></i> Ban
+                            </button>
+
+                            <a
+                                type="button"
+                                href="/profile/<%- user.userMagikId %> "
+                                target="_blank"
+                                class="btn btn-success"
+                            >
+                                <i class="fas fa-external-link"></i> View
+                                Profile
                             </a>
                         </div>
                     </div>
