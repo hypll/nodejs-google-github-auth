@@ -77,6 +77,12 @@ router.get("/login", ensureGuest, ensureLoggedIn, async (req, res) => {
     });
 });
 
+router.get("/premium", async (req, res) => {
+    res.render("premium", {
+        isLoggedIn: req.isAuthenticated(),
+    });
+});
+
 router.get("/partners", ensureGuest, (req, res) => {
     const partners = [
         {
