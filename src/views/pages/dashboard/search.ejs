@@ -7,23 +7,53 @@
     <body>
         <%- include("../../partials/navbar.ejs") %>
 
-        <!-- create a section for the query -->
         <section class="container mt-2">
             <div class="row">
                 <div class="col-md-12">
                     <h1>Search</h1>
-                    <!-- if the search contains something from the username then display it -->
+
                     <% if (search.length > 0) { %>
                     <p>Search results for: <strong><%= search %></strong></p>
-                    <% } %>
-
-                    <!-- if the search includes something from the username then display it -->
-                    <% if (search == username) { %>
+                    <% } %> <% if (search == username) { %>
                     <div class="alert alert-danger" role="alert">
                         <strong>Oh snap!</strong> You cannot search for
                         yourself.
                     </div>
-                    <% } %>
+                    <% } %> <% if (search.length == 0) { %> <div class="alert
+                    alert-danger" " role="alert" >
+                    <strong>Oh snap!</strong> You must enter a search query.
+
+                    <a href="/dashboard/admin#search">
+                        <button
+                            style="margin-left: 2rem"
+                            class="btn btn-sm btn-outline-dark"
+                        >
+                            Search again
+                        </button>
+                    </a>
+                </div>
+                <% } %> <% if (search == username) { %>
+                <div class="row">
+                    <% if (search.length > 0) { %> <% for (let user of users) {
+                    %>
+                    <div class="col-md-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title"><%= user.userName %></h5>
+                                <p class="card-text text-secondary">
+                                    <%= user._id %>
+                                </p>
+                                <p class="card-text"><%= user.userBio %></p>
+                                <a
+                                    href="/dashboard/admin#<%- user._id %>"
+                                    class="btn btn-outline-dark"
+                                >
+                                    View user
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <% } %> <% } %><% } %>
                 </div>
             </div>
         </section>

@@ -61,7 +61,11 @@
                 <div class="col-md-12">
                     <% for (let user of users) { %>
 
-                    <div class="card mb-3" data-id="<%- user._id %>">
+                    <div
+                        class="card mb-3"
+                        id="<%- user._id %> "
+                        data-id="<%- user._id %>"
+                    >
                         <div class="card-body">
                             <h5 class="card-title"><%- user.userName %></h5>
                             <p class="card-text text-secondary">
@@ -83,9 +87,7 @@
                                     <strong>Provider:</strong> <%- user.provider
                                     %> (<%- user.userId %>)
                                 </p>
-                                <p class="card-text">
-                                    <strong>Banned:</strong> <%- user.banned %>
-                                </p>
+
                                 <p class="card-text">
                                     <strong>Created:</strong> <%- user.joinedAt
                                     %>

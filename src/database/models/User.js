@@ -17,6 +17,11 @@ const UserSchema = new mongoose.Schema({
         default: "user",
     },
 
+    userStorage: {
+        type: Number,
+        default: 4000000,
+    },
+
     displayName: {
         type: String,
     },
@@ -24,6 +29,11 @@ const UserSchema = new mongoose.Schema({
     userName: {
         type: String,
         required: true,
+    },
+
+    userStorage: {
+        type: Number,
+        default: 0,
     },
 
     userBio: {
@@ -45,7 +55,7 @@ const UserSchema = new mongoose.Schema({
         type: Array,
     },
 
-    banned: {
+    premium: {
         type: Boolean,
         default: false,
     },

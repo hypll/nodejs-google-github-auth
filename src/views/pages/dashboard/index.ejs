@@ -59,9 +59,10 @@
 
                                 <% if (disName) { %>
                                 <form
-                                    action="/dashboard/update"
+                                    action="/api/update/user/<%- id %> "
                                     class="mt-4"
-                                    method="POST"
+                                    method="GET"
+                                    enctype="multipart/form-data"
                                 >
                                     <div class="form-group">
                                         <label for="displayName"
@@ -100,7 +101,6 @@
                                         class="form-control mb-2"
                                         id="bio"
                                         placeholder="Tell us a little about yourself"
-                                        value="<%- bio %>"
                                         disabled
                                     />
 
@@ -137,6 +137,21 @@
                                     >
                                         Copy ID
                                     </button>
+                                </div>
+
+                                <div class="mb-4">
+                                    <strong>Plan:</strong>
+                                    <p class="card-text" style="color: gray">
+                                        <% if (isPremium == true) { %>
+                                        <span class="badge bg-success"
+                                            >💎 Premium</span
+                                        >
+                                        <% } else { %>
+                                        <span class="badge bg-danger"
+                                            >✨ Free</span
+                                        >
+                                        <% } %>
+                                    </p>
                                 </div>
 
                                 <% if (userRole == "admin") { %>

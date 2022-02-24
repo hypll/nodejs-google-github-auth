@@ -7,6 +7,14 @@ module.exports = {
         }
     },
 
+    ensureLoggedIn: function (req, res, next) {
+        if (req.isAuthenticated()) {
+            res.redirect("/dashboard");
+        } else {
+            return next();
+        }
+    },
+
     ensureAdmin: function (req, res, next) {
         if (req.isAuthenticated() && req.user.userRole == "admin") {
             return next();

@@ -1,10 +1,12 @@
 const router = require("express").Router();
 const User = require("../database/models/User");
 const Image = require("../database/models/image");
+const fileSize = require("filesize");
 const {
     ensureAuth,
     ensureGuest,
     ensureAdmin,
+    ensureLoggedIn,
 } = require("../middleware/requireAuth");
 
 router.get("/", ensureGuest, (req, res) => {
@@ -18,6 +20,7 @@ router.get("/dashboard", ensureAuth, async (req, res) => {
         id: req.user._id,
         userId: req.user.userId,
         userRole: req.user.userRole,
+        userStorage: fileSize(req.user.userStorage),
         disName: req.user.displayName,
         username: req.user.userName,
         profilePicture: req.user.profilePicture,
@@ -25,6 +28,7 @@ router.get("/dashboard", ensureAuth, async (req, res) => {
         bio: req.user.userBio,
         joinedAt: req.user.joinedAt,
         allUsers: "/api/users",
+        isPremium: req.user.premium,
         isLoggedIn: req.isAuthenticated(),
         host: process.env.HOST,
 
@@ -67,7 +71,7 @@ router.get("/dashboard/admin/search", ensureAdmin, async (req, res) => {
     });
 });
 
-router.get("/login", ensureGuest, async (req, res) => {
+router.get("/login", ensureGuest, ensureLoggedIn, async (req, res) => {
     res.render("login", {
         isLoggedIn: req.isAuthenticated(),
     });
@@ -115,7 +119,7 @@ router.get("/uploads/:id", (req, res) => {
     }
 });
 
-router.get("/profile/:id", async (req, res) => {
+router.get("/profile/:id", ensureAuth, async (req, res, next) => {
     User.findOne({ userMagikId: req.params.id }, (err, user) => {
         if (err) {
             res.send(err);
@@ -136,17 +140,10 @@ router.get("/profile/:id", async (req, res) => {
 
                 // The user there are logged in, and have access to the profile of the user that is being looked at.
                 trueId: req.user._id,
-                trueUserName: req.user.userName,
                 trueUserId: req.user.userId,
-                trueUserRole: req.user.userRole,
-                trueMagikId: req.user.magikId,
-                trueProfilePicture: req.user.profilePicture,
-                trueUserMagikId: req.user.userMagikId,
-                trueBio: req.user.userBio,
-                trueJoinedAt: req.user.joinedAt,
 
-                images: "Hello, world!",
-                // images: await Image.find({ user: req.user._id }),
+                images: "/api/images",
+                //images: await Image.find({ user: req.user._id }),
             });
         }
     });

@@ -34,6 +34,7 @@ const fileStorage = multer.diskStorage({
                 imageId: `${id}`,
                 imageName: file.originalname,
                 imagePath: `/uploads/${id}-${file.originalname}`,
+
                 uploadedBy: req.user._id,
                 uploadedAt: moment().format("MMMM Do YYYY, h:mm:ss a"),
             });
@@ -146,34 +147,6 @@ router.get("/users/:id", (req, res) => {
     }
 });
 
-// User Update
-
-//  create a route that updates the user's bio
-router.get("/update/bio/:id", (req, res) => {
-    if (!req.isAuthenticated()) {
-        res.json({
-            status: 204,
-            error: "Unauthorized",
-            error_id: yourid.generate(30),
-            timestamp: new Date().toISOString(),
-        });
-    } else {
-        User.findOneAndUpdate(
-            { _id: req.params.id },
-            { userBio: req.body.userBio },
-            { new: true },
-            { upsert: true },
-            (err, user) => {
-                if (err) {
-                    res.send("User was not found!");
-                } else {
-                    res.redirect("/dashboard?updateKey=" + user.userId);
-                }
-            }
-        );
-    }
-});
-
 router.get("/delete", (req, res) => {
     User.findOneAndDelete({ userId: req.user.userId }, (err, user) => {
         if (err) {
@@ -202,6 +175,19 @@ router.get("/delete/user/:id", (req, res) => {
             res.redirect("/dashboard/admin?deleted=true&id=" + user._id);
         }
     });
+});
+
+router.get("/update/user/:id", (req, res) => {
+    User.findOneAndUpdate(
+        { _id: req.params.id, displayName: req.body.displayName },
+        (err, user) => {
+            if (err) {
+                res.send(err);
+            } else {
+                res.redirect("/dashboard/admin?deleted=true&id=" + user._id);
+            }
+        }
+    );
 });
 
 module.exports = router;
