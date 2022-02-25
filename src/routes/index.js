@@ -155,7 +155,7 @@ router.get("/profile/:id", ensureAuth, async (req, res, next) => {
     });
 });
 
-router.get("/view/:id", ensureGuest, (req, res, next) => {
+router.get("/view/:id", ensureGuest, ensureAuth, (req, res, next) => {
     Image.findOne({ imageId: req.params.id }, (err, image) => {
         if (err) {
             res.send(err);
@@ -164,9 +164,11 @@ router.get("/view/:id", ensureGuest, (req, res, next) => {
                 id: req.user._id,
                 userRole: req.user.userRole,
                 imageId: image._id,
+                imgId: image.imageId,
                 image: image,
                 name: image.imageName,
                 url: image.imagePath,
+                user: image.uploadedBy,
                 uploadedAt: image.uploadedAt,
                 host: process.env.HOST,
                 isLoggedIn: req.isAuthenticated(),
