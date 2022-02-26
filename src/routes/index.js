@@ -19,6 +19,7 @@ router.get("/dashboard", ensureAuth, async (req, res) => {
     res.render("pages/dashboard/index", {
         id: req.user._id,
         userId: req.user.userId,
+        userEmail: req.user.userEmail,
         userRole: req.user.userRole,
         userStorage: fileSize(req.user.userStorage),
         disName: req.user.displayName,
@@ -40,6 +41,7 @@ router.get("/dashboard/admin", ensureAdmin, async (req, res) => {
     res.render("pages/dashboard/admin", {
         id: req.user._id,
         userId: req.user.userId,
+        userEmail: req.user.userEmail,
         userRole: req.user.userRole,
         disName: req.user.displayName,
         username: req.user.userName,
@@ -57,6 +59,7 @@ router.get("/dashboard/admin/search", ensureAdmin, async (req, res) => {
     res.render("pages/dashboard/search", {
         id: req.user._id,
         userId: req.user.userId,
+        userEmail: req.user.userEmail,
         userRole: req.user.userRole,
         disName: req.user.displayName,
         username: req.user.userName,
@@ -162,7 +165,7 @@ router.get("/profile/:id", ensureAuth, async (req, res, next) => {
     });
 });
 
-router.get("/view/:id", ensureGuest, (req, res, next) => {
+router.get("/view/:id", ensureGuest, ensureAuth, (req, res, next) => {
     Image.findOne({ imageId: req.params.id }, (err, image) => {
         if (err) {
             res.send(err);
@@ -175,6 +178,7 @@ router.get("/view/:id", ensureGuest, (req, res, next) => {
                 image: image,
                 name: image.imageName,
                 url: image.imagePath,
+                user: image.uploadedBy,
                 uploadedAt: image.uploadedAt,
                 host: process.env.HOST,
                 isLoggedIn: req.isAuthenticated(),
