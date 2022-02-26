@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const id = require("yourid");
 
 const UserSchema = new mongoose.Schema({
     userId: {
@@ -17,11 +18,6 @@ const UserSchema = new mongoose.Schema({
         default: "user",
     },
 
-    userStorage: {
-        type: Number,
-        default: 4000000,
-    },
-
     displayName: {
         type: String,
     },
@@ -31,6 +27,12 @@ const UserSchema = new mongoose.Schema({
         required: true,
     },
 
+    userEmail: {
+        type: String,
+        // required: true,
+        unique: true,
+    },
+
     userStorage: {
         type: Number,
         default: 0,
@@ -38,7 +40,7 @@ const UserSchema = new mongoose.Schema({
 
     userBio: {
         type: String,
-        default: "This user has no bio. 🥴",
+        default: "This user has no bio.",
     },
 
     provider: {
@@ -51,13 +53,15 @@ const UserSchema = new mongoose.Schema({
         required: true,
     },
 
-    images: {
-        type: Array,
-    },
-
     premium: {
         type: Boolean,
         default: false,
+    },
+
+    apiKey: {
+        type: String,
+        required: true,
+        default: id.generate({ length: 30, prefix: "", includePrefix: false }),
     },
 
     joinedAt: {

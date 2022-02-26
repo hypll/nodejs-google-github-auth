@@ -72,23 +72,41 @@
                                 <%- user._id %>
                             </p>
                             <div class="mb-2">
-                                <p class="card-text">
+                                <p class="card-text" data-id="<%- user._id %>">
                                     <strong>Magik ID:</strong> <%-
                                     user.userMagikId %>
                                 </p>
-                                <p class="card-text">
+                                <% if (userEmail) { %>
+                                <p class="card-text" data-id="<%- user._id %>">
+                                    <strong>Email:</strong> <%- user.userEmail
+                                    || 'This user does not have an email'%>
+                                </p>
+                                <% } %>
+                                <p
+                                    class="card-text"
+                                    data-disName="<%- user.displayName %>"
+                                >
                                     <strong>Display Name:</strong> <%-
                                     user.displayName %>
                                 </p>
-                                <p class="card-text">
+                                <p
+                                    class="card-text"
+                                    dataRole="<%- user.userRole %> "
+                                >
                                     <strong>Role:</strong> <%- user.userRole %>
                                 </p>
-                                <p class="card-text">
+                                <p
+                                    class="card-text"
+                                    data-provider="<%- user.provider %> "
+                                >
                                     <strong>Provider:</strong> <%- user.provider
                                     %> (<%- user.userId %>)
                                 </p>
 
-                                <p class="card-text">
+                                <p
+                                    class="card-text"
+                                    data-joinedAt="<%- user.joinedAt %> "
+                                >
                                     <strong>Created:</strong> <%- user.joinedAt
                                     %>
                                 </p>

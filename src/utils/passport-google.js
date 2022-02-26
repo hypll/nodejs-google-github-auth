@@ -21,6 +21,7 @@ passport.use(
                     includePrefix: false,
                 }),
                 displayName: profile.displayName,
+                userEmail: profile.emails[0].value,
                 userName: `${profile.name.givenName}-${profile.name.familyName}`,
                 provider: profile.provider,
                 profilePicture: profile.photos[0].value,

@@ -5,8 +5,6 @@ const multer = require("multer");
 const yourid = require("yourid");
 const Image = require("../database/models/image");
 const User = require("../database/models/User");
-const FileSize = require("filesize");
-const nodemailer = require("nodemailer");
 
 router.get("/", (req, res) => {
     res.render("api");
@@ -89,7 +87,7 @@ router.get("/uploads", (req, res) => {
     }
 });
 
-router.get("/users", (req, res) => {
+router.get("/checkapikey", (req, res) => {
     if (!req.isAuthenticated()) {
         res.json({
             status: 204,
@@ -102,28 +100,96 @@ router.get("/users", (req, res) => {
             timestamp: new Date().toISOString(),
         });
     } else {
-        const key = req.query.key;
+        User.findOne({ apiKey: req.query.apiKey }, (err, user) => {
+            if (err) {
+                console.log(err);
+            } else {
+                if (user) {
+                    res.json({
+                        status: 200,
+                        userName: user.userName,
+                        userEmail: user.userEmail,
+                        userBio: user.userBio,
+                        userRole: user.userRole,
+                        userMagikId: user.userMagikId,
+                        userDisplayName: user.displayName,
+                        userProvider: user.provider,
+                        userProfilePicture: user.profilePicture,
+                        userPremium: user.premium,
+                    });
+                } else {
+                    res.json({
+                        status: 204,
+                        error: "Api key is invalid",
+                        error_id: yourid.generate({
+                            length: 11,
+                            prefix: "",
+                            includePrefix: false,
+                        }),
+                        timestamp: new Date().toISOString(),
+                    });
+                }
+            }
+        });
+    }
+});
+
+router.get("/users", (req, res) => {
+    const apiKey = User.findOne({ apiKey: req.query.apiKey });
+
+    if (apiKey === null) {
+        res.json({
+            status: 204,
+            error: "Api key is invalid",
+            error_id: yourid.generate({
+                length: 11,
+                prefix: "",
+                includePrefix: false,
+            }),
+            timestamp: new Date().toISOString(),
+        });
+    } else {
         User.find({}, (err, users) => {
-            res.send(users);
+            const filteredUsers = users.map((user) => {
+                return {
+                    userName: user.userName,
+                    userMagikId: user.userMagikId,
+                    userDisplayName: user.displayName,
+                    userProvider: user.provider,
+                    userProfilePicture: user.profilePicture,
+                    userBio: user.userBio,
+                    userJoined: user.joinedAt,
+                    userRole: user.userRole,
+                    premium: user.premium,
+                };
+            });
+            res.send(filteredUsers);
         });
     }
 });
 
 router.get("/uploads/:id", (req, res) => {
-    if (!req.isAuthenticated()) {
-        res.json({
-            status: 204,
-            error: "Unauthorized",
-            error_id: yourid.generate(30),
-            timestamp: new Date().toISOString(),
-        });
-    } else {
+    const apiKey = req.query.api_key;
+    const userKey = req.user.apiKey;
+
+    if (apiKey === userKey) {
         Image.findOne({ imageId: req.params.id }, (err, image) => {
             if (err) {
                 res.send("Image was not found!");
             } else {
                 res.send(image);
             }
+        });
+    } else {
+        res.json({
+            status: 401,
+            error: "Unauthorized",
+            error_id: yourid.generate({
+                length: 11,
+                prefix: "",
+                includePrefix: false,
+            }),
+            timestamp: new Date().toISOString(),
         });
     }
 });
@@ -147,6 +213,7 @@ router.get("/users/:id", (req, res) => {
     }
 });
 
+// Delete requests
 router.get("/delete", (req, res) => {
     User.findOneAndDelete({ userId: req.user.userId }, (err, user) => {
         if (err) {

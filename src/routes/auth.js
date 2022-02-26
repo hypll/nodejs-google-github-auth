@@ -9,7 +9,7 @@ router.get("/", (req, res) => {
 
 // Github Auth
 
-router.get("/github", passport.authenticate("github"));
+router.get("/github", passport.authenticate("github", { scope: "user:email" }));
 
 router.get(
     "/github/callback",
@@ -33,7 +33,10 @@ router.get(
 
 // Google Auth
 
-router.get("/google", passport.authenticate("google", { scope: ["profile"] }));
+router.get(
+    "/google",
+    passport.authenticate("google", { scope: ["email", "profile"] })
+);
 
 router.get(
     "/google/callback",

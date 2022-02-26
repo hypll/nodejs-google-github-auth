@@ -19,6 +19,7 @@ router.get("/dashboard", ensureAuth, async (req, res) => {
     res.render("pages/dashboard/index", {
         id: req.user._id,
         userId: req.user.userId,
+        userEmail: req.user.userEmail,
         userRole: req.user.userRole,
         userStorage: fileSize(req.user.userStorage),
         disName: req.user.displayName,
@@ -40,6 +41,7 @@ router.get("/dashboard/admin", ensureAdmin, async (req, res) => {
     res.render("pages/dashboard/admin", {
         id: req.user._id,
         userId: req.user.userId,
+        userEmail: req.user.userEmail,
         userRole: req.user.userRole,
         disName: req.user.displayName,
         username: req.user.userName,
@@ -57,6 +59,7 @@ router.get("/dashboard/admin/search", ensureAdmin, async (req, res) => {
     res.render("pages/dashboard/search", {
         id: req.user._id,
         userId: req.user.userId,
+        userEmail: req.user.userEmail,
         userRole: req.user.userRole,
         disName: req.user.displayName,
         username: req.user.userName,
