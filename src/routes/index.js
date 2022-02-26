@@ -139,10 +139,17 @@ router.get("/profile/:id", ensureAuth, async (req, res, next) => {
                 magikId: user.userMagikId,
                 profilePicture: user.profilePicture,
                 userMagikId: user.userMagikId,
+                premium: user.premium,
+                verified: user.verified,
                 bio: user.userBio,
                 joinedAt: user.joinedAt,
                 host: process.env.HOST,
                 isLoggedIn: req.isAuthenticated(),
+
+                // badges
+                staffBadge: user.userRole === "admin" ? true : false,
+                premiumBadge: user.premium ? true : false,
+                verifiedBadge: user.verified ? true : false,
 
                 // The user there are logged in, and have access to the profile of the user that is being looked at.
                 trueId: req.user._id,
@@ -164,6 +171,7 @@ router.get("/view/:id", ensureGuest, (req, res, next) => {
                 id: req.user._id,
                 userRole: req.user.userRole,
                 imageId: image._id,
+                imgId: image.imageId,
                 image: image,
                 name: image.imageName,
                 url: image.imagePath,

@@ -14,6 +14,34 @@
         <script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 
         <title>Profile - <%- disName %></title>
+        <style>
+            /* Tooltip container */
+            .tooltip {
+                position: relative;
+                display: inline-block;
+                border-bottom: 1px dotted black; /* If you want dots under the hoverable text */
+            }
+
+            /* Tooltip text */
+            .tooltip .tooltiptext {
+                visibility: hidden;
+                width: 120px;
+                background-color: black;
+                color: #fff;
+                text-align: center;
+                padding: 5px 0;
+                border-radius: 6px;
+
+                /* Position the tooltip text - see examples below! */
+                position: absolute;
+                z-index: 1;
+            }
+
+            /* Show the tooltip text when you mouse over the tooltip container */
+            .tooltip:hover .tooltiptext {
+                visibility: visible;
+            }
+        </style>
     </head>
     <body>
         <!-- Navbar path: /partials/navbar -->
@@ -49,6 +77,18 @@
                                     <%- joinedAt %>
                                 </span>
                             </div>
+
+                            <hr style="opacity: 0.1" />
+
+                            <div class="text-center">
+                                <% if (premium === true) { %>
+                                <span class="badge bg-primary"> Premium </span>
+                                <% } %> <% if (userRole === "admin") { %>
+                                <span class="badge bg-danger"> Admin </span>
+                                <% } %> <% if (verified === true) { %>
+                                <span class="badge bg-success"> Verified </span>
+                                <% } %>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -68,43 +108,8 @@
                     </button>
                 </div>
             </div>
+            <!-- create a div with some badges like "staff" "og member" -->
         </section>
-        <p><%- images %></p>
-        <!-- all the user images -->
-        <!-- <section class="container-fluid mt-3">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12">
-                        <h2 class="text-center">Images</h2>
-                    </div>
-                </div>
-            </div>
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="card mb-3">
-                                    <div class="card-body">
-                                        <img
-                                            src="https://www.imagemagik.tk/upload.png"
-                                            alt="url"
-                                            class="img-fluid"
-                                            style="max-width: 100%"
-                                        />
-                                        <div class="text-center">
-                                            <span class="text-secondary">
-                                                Title
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section> -->
 
         <script>
             function logout() {

@@ -60,6 +60,11 @@ const UserSchema = new mongoose.Schema({
         default: false,
     },
 
+    verified: {
+        type: Boolean,
+        default: false,
+    },
+
     joinedAt: {
         type: String,
         required: true,
