@@ -66,7 +66,6 @@ const UserSchema = new mongoose.Schema({
     apiKey: {
         type: String,
         required: true,
-        default: id.generate({ length: 30, prefix: "", includePrefix: false }),
     },
 
     joinedAt: {

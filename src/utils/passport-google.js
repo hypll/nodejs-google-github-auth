@@ -25,6 +25,11 @@ passport.use(
                 userName: `${profile.name.givenName}-${profile.name.familyName}`,
                 provider: profile.provider,
                 profilePicture: profile.photos[0].value,
+                apiKey: yourid.generate({
+                    length: 30,
+                    prefix: "",
+                    includePrefix: false,
+                }),
                 joinedAt: moment().format("MMMM Do YYYY"),
             };
 

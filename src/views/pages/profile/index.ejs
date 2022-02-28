@@ -9,7 +9,13 @@
             rel="stylesheet"
             href="/plugins/bootstrap/css/bootstrap.min.css"
         />
-        <link rel="stylesheet" href="/plugins/fontawesome/css/all.css" />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+            integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+        />
         <!-- JavaScript Bundle with Popper -->
         <script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 
@@ -82,11 +88,33 @@
 
                             <div class="text-center">
                                 <% if (premium === true) { %>
-                                <span class="badge bg-primary"> Premium </span>
-                                <% } %> <% if (userRole === "admin") { %>
-                                <span class="badge bg-danger"> Admin </span>
-                                <% } %> <% if (verified === true) { %>
-                                <span class="badge bg-success"> Verified </span>
+                                <span
+                                    class="badge bg-primary"
+                                    data-bs-toggle="tooltip"
+                                    data-bs-placement="bottom"
+                                    title="This user is premium, a legend!"
+                                >
+                                    <i class="fa-solid fa-gem"></i>
+                                </span>
+                                <% if (verified === true) { %>
+                                <span
+                                    class="badge bg-dark"
+                                    data-bs-toggle="tooltip"
+                                    data-bs-placement="bottom"
+                                    title="This user is verified"
+                                >
+                                    <i class="fa fa-check"></i>
+                                </span>
+                                <% } %> <% } %> <% if (userRole === "admin") {
+                                %>
+                                <span
+                                    class="badge bg-success"
+                                    data-bs-toggle="tooltip"
+                                    data-bs-placement="bottom"
+                                    title="This user is admin"
+                                >
+                                    Admin
+                                </span>
                                 <% } %>
                             </div>
                         </div>
@@ -103,12 +131,79 @@
                         <i class="fa fa-pencil"></i> Edit Profile
                     </button>
                     <% } %>
-                    <button class="btn btn-secondary btn-block" id="copy">
+                    <button
+                        class="btn btn-secondary btn-block"
+                        id="copy"
+                        data-bs-toggle="tooltip"
+                        data-bs-placement="bottom"
+                        title="Copy the profile to clipboard"
+                    >
                         🔗 Copy link
                     </button>
+
+                    <button
+                        type="button"
+                        class="btn btn-success"
+                        data-bs-toggle="modal"
+                        data-bs-target="#toggleModal"
+                    >
+                        <i class="fa fa-share"></i> Share
+                    </button>
+
+                    <div
+                        class="modal fade"
+                        id="toggleModal"
+                        tabindex="-1"
+                        aria-labelledby="exampleModalLabel"
+                        aria-hidden="true"
+                    >
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5
+                                        class="modal-title"
+                                        id="exampleModalLabel"
+                                    >
+                                        Share <strong><%- disName %>'s</strong>
+                                        profile
+                                    </h5>
+                                    <button
+                                        type="button"
+                                        class="btn-close"
+                                        data-bs-dismiss="modal"
+                                        aria-label="Close"
+                                    ></button>
+                                </div>
+                                <div class="modal-body">
+                                    <a
+                                        class="twitter-share-button"
+                                        href="https://twitter.com/intent/tweet?text=Check out <%- disName %>'s profile on <%=
+                                            process.env.HOST
+                                        %>&url=<%- process.env.HOST %>/profile/<%- magikId %>"
+                                        data-size="large"
+                                        data-text="Check out <%- disName %>'s profile on <%=
+                                            process.env.HOST
+                                        %>"
+                                        data-url="<%- process.env.HOST %>/profile<%- magikId %>"
+                                        data-hashtags="<%- disName %>"
+                                        data-show-count="false"
+                                        ><i class="fa-brands fa-twitter"></i
+                                    ></a>
+                                </div>
+                                <div class="modal-footer">
+                                    <button
+                                        type="button"
+                                        class="btn btn-secondary"
+                                        data-bs-dismiss="modal"
+                                    >
+                                        Close
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <!-- create a div with some badges like "staff" "og member" -->
         </section>
 
         <script>
@@ -131,6 +226,15 @@
                     copyBtn.innerText = "🔗 Copy link";
                     copyBtn.classList.remove("copied");
                 }, 2000);
+            });
+
+            var tooltipTriggerList = [].slice.call(
+                document.querySelectorAll('[data-bs-toggle="tooltip"]')
+            );
+            var tooltipList = tooltipTriggerList.map(function (
+                tooltipTriggerEl
+            ) {
+                return new bootstrap.Tooltip(tooltipTriggerEl);
             });
         </script>
     </body>
