@@ -3,7 +3,11 @@ module.exports = {
         if (req.isAuthenticated()) {
             return next();
         } else {
-            res.redirect("/login?returnURL=" + req.originalUrl);
+            res.redirect(
+                "/login?returnURL=" +
+                    req.originalUrl +
+                    "&message=You must be logged in to access the page"
+            );
         }
     },
 

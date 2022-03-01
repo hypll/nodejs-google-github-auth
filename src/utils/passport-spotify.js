@@ -19,6 +19,7 @@ passport.use(
                     prefix: "",
                     includePrefix: false,
                 }),
+
                 displayName: profile.displayName,
                 userName: profile.username,
                 provider: profile.provider,

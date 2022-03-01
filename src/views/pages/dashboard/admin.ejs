@@ -76,12 +76,7 @@
                                     <strong>Magik ID:</strong> <%-
                                     user.userMagikId %>
                                 </p>
-                                <% if (userEmail) { %>
-                                <p class="card-text" data-id="<%- user._id %>">
-                                    <strong>Email:</strong> <%- user.userEmail
-                                    || 'This user does not have an email'%>
-                                </p>
-                                <% } %>
+
                                 <p
                                     class="card-text"
                                     data-disName="<%- user.displayName %>"

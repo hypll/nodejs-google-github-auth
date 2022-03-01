@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const User = require("../database/models/User");
 const Image = require("../database/models/image");
-const fileSize = require("filesize");
+
 const {
     ensureAuth,
     ensureGuest,
@@ -19,9 +19,7 @@ router.get("/dashboard", ensureAuth, async (req, res) => {
     res.render("pages/dashboard/index", {
         id: req.user._id,
         userId: req.user.userId,
-        userEmail: req.user.userEmail,
         userRole: req.user.userRole,
-        userStorage: fileSize(req.user.userStorage),
         disName: req.user.displayName,
         username: req.user.userName,
         profilePicture: req.user.profilePicture,
@@ -32,7 +30,6 @@ router.get("/dashboard", ensureAuth, async (req, res) => {
         isPremium: req.user.premium,
         isLoggedIn: req.isAuthenticated(),
         host: process.env.HOST,
-
         images: await Image.find({ user: req.user._id }),
     });
 });
@@ -41,7 +38,6 @@ router.get("/dashboard/admin", ensureAdmin, async (req, res) => {
     res.render("pages/dashboard/admin", {
         id: req.user._id,
         userId: req.user.userId,
-        userEmail: req.user.userEmail,
         userRole: req.user.userRole,
         disName: req.user.displayName,
         username: req.user.userName,
@@ -59,7 +55,6 @@ router.get("/dashboard/admin/search", ensureAdmin, async (req, res) => {
     res.render("pages/dashboard/search", {
         id: req.user._id,
         userId: req.user.userId,
-        userEmail: req.user.userEmail,
         userRole: req.user.userRole,
         disName: req.user.displayName,
         username: req.user.userName,
@@ -157,6 +152,7 @@ router.get("/profile/:id", ensureAuth, async (req, res, next) => {
                 // The user there are logged in, and have access to the profile of the user that is being looked at.
                 trueId: req.user._id,
                 trueUserId: req.user.userId,
+                trueRole: req.user.userRole,
 
                 images: "/api/images",
                 //images: await Image.find({ user: req.user._id }),
@@ -179,24 +175,6 @@ router.get("/view/:id", ensureGuest, ensureAuth, (req, res, next) => {
                 name: image.imageName,
                 url: image.imagePath,
                 user: image.uploadedBy,
-                uploadedAt: image.uploadedAt,
-                host: process.env.HOST,
-                isLoggedIn: req.isAuthenticated(),
-            });
-        }
-    });
-});
-
-router.get("/share/:id", ensureGuest, (req, res, next) => {
-    Image.findOne({ imageId: req.params.id }, (err, image) => {
-        if (err) {
-            res.send(err);
-        } else {
-            res.render("share", {
-                imageId: image.imageId,
-                image: image,
-                name: image.imageName,
-                url: image.imagePath,
                 uploadedAt: image.uploadedAt,
                 host: process.env.HOST,
                 isLoggedIn: req.isAuthenticated(),

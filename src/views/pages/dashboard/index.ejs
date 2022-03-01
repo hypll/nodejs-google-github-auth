@@ -88,35 +88,6 @@
                                     </button>
                                 </form>
 
-                                <% } %> <% if (userEmail) { %>
-                                <form
-                                    action="/api/update/user/<%- id %> "
-                                    class="mb-3"
-                                    method="GET"
-                                    enctype="multipart/form-data"
-                                >
-                                    <div class="form-group">
-                                        <label for="displayName">Email</label>
-                                        <input
-                                            type="text"
-                                            class="form-control"
-                                            id="displayName"
-                                            name="displayName"
-                                            placeholder="Enter a Display Name"
-                                            required
-                                            value="<%- userEmail %>"
-                                            disabled
-                                        />
-                                    </div>
-                                    <button
-                                        type="submit"
-                                        class="btn btn-secondary btn-sm mt-2 mb-2"
-                                        disabled
-                                    >
-                                        Update
-                                    </button>
-                                </form>
-
                                 <% } %>
 
                                 <strong>📍 Bio</strong>

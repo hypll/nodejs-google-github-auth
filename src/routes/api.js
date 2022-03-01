@@ -32,9 +32,8 @@ const fileStorage = multer.diskStorage({
                 imageId: `${id}`,
                 imageName: file.originalname,
                 imagePath: `/uploads/${id}-${file.originalname}`,
-
                 uploadedBy: req.user._id,
-                uploadedAt: moment().format("MMMM Do YYYY, h:mm:ss a"),
+                uploadedAt: moment().format("MMMM Do YYYY"),
             });
             img.save();
         } catch (err) {
@@ -69,10 +68,11 @@ router.post("/upload/multiple", upload.array("images", 3), (req, res) => {
 // Get images
 
 router.get("/uploads", (req, res) => {
-    if (!req.isAuthenticated()) {
+    const apiKey = User.find({ apiKey: req.query.apiKey });
+
+    if (!apiKey) {
         res.json({
-            status: 204,
-            error: "Unauthorized",
+            error: "Api key is invalid",
             error_id: yourid.generate({
                 length: 11,
                 prefix: "",
@@ -82,64 +82,25 @@ router.get("/uploads", (req, res) => {
         });
     } else {
         Image.find({}, (err, images) => {
-            res.send(images);
-        });
-    }
-});
-
-router.get("/checkapikey", (req, res) => {
-    if (!req.isAuthenticated()) {
-        res.json({
-            status: 204,
-            error: "Unauthorized",
-            error_id: yourid.generate({
-                length: 11,
-                prefix: "",
-                includePrefix: false,
-            }),
-            timestamp: new Date().toISOString(),
-        });
-    } else {
-        User.findOne({ apiKey: req.query.apiKey }, (err, user) => {
-            if (err) {
-                console.log(err);
-            } else {
-                if (user) {
-                    res.json({
-                        status: 200,
-                        userName: user.userName,
-                        userEmail: user.userEmail,
-                        userBio: user.userBio,
-                        userRole: user.userRole,
-                        userMagikId: user.userMagikId,
-                        userDisplayName: user.displayName,
-                        userProvider: user.provider,
-                        userProfilePicture: user.profilePicture,
-                        userPremium: user.premium,
-                    });
-                } else {
-                    res.json({
-                        status: 204,
-                        error: "Api key is invalid",
-                        error_id: yourid.generate({
-                            length: 11,
-                            prefix: "",
-                            includePrefix: false,
-                        }),
-                        timestamp: new Date().toISOString(),
-                    });
-                }
-            }
+            const filteredImages = images.map((image) => {
+                return {
+                    ID: image.imageId,
+                    name: image.imageName,
+                    path: process.env.HOST + image.imagePath,
+                    apiPath: process.env.HOST + "/api/uploads/" + image.imageId,
+                    uploadedAt: image.uploadedAt,
+                };
+            });
+            res.send(filteredImages);
         });
     }
 });
 
 router.get("/users", (req, res) => {
-    const apiKey = User.findOne({ apiKey: req.query.apiKey });
+    const apiKey = User.find({ apiKey: req.query.apiKey });
 
-    if (apiKey === null) {
+    if (!apiKey) {
         res.json({
-            status: 204,
             error: "Api key is invalid",
             error_id: yourid.generate({
                 length: 11,
@@ -158,9 +119,13 @@ router.get("/users", (req, res) => {
                     userProvider: user.provider,
                     userProfilePicture: user.profilePicture,
                     userBio: user.userBio,
+                    userPath: process.env.HOST + "/profile/" + user.userMagikId,
+                    userApiPath:
+                        process.env.HOST + "/api/users/" + user.userMagikId,
                     userJoined: user.joinedAt,
                     userRole: user.userRole,
                     premium: user.premium,
+                    verified: user.verified,
                 };
             });
             res.send(filteredUsers);
@@ -169,48 +134,53 @@ router.get("/users", (req, res) => {
 });
 
 router.get("/uploads/:id", (req, res) => {
-    const apiKey = req.query.api_key;
-    const userKey = req.user.apiKey;
-
-    if (apiKey === userKey) {
-        Image.findOne({ imageId: req.params.id }, (err, image) => {
-            if (err) {
-                res.send("Image was not found!");
-            } else {
-                res.send(image);
-            }
-        });
-    } else {
-        res.json({
-            status: 401,
-            error: "Unauthorized",
-            error_id: yourid.generate({
-                length: 11,
-                prefix: "",
-                includePrefix: false,
-            }),
-            timestamp: new Date().toISOString(),
-        });
-    }
+    Image.findOne({ imageId: req.params.id }, (err, image) => {
+        if (err) {
+            res.json({
+                status: 404,
+                error: "User not found",
+                error_id: yourid.generate(30),
+                timestamp: new Date().toISOString(),
+            });
+        } else {
+            res.send({
+                ID: image.imageId,
+                name: image.imageName,
+                path: process.env.HOST + image.imagePath,
+                uploadedAt: image.uploadedAt,
+            });
+        }
+    });
 });
 
 router.get("/users/:id", (req, res) => {
-    if (!req.isAuthenticated()) {
-        res.json({
-            status: 204,
-            error: "Unauthorized",
-            error_id: yourid.generate(30),
-            timestamp: new Date().toISOString(),
-        });
-    } else {
-        User.findOne({ id: req.params._id }, (err, user) => {
-            if (err) {
-                res.send("User was not found!");
-            } else {
-                res.send(user);
-            }
-        });
-    }
+    // filter the user
+    User.findOne({ userMagikId: req.params.id }, (err, user) => {
+        if (err) {
+            res.json({
+                status: 404,
+                error: "User not found",
+                error_id: yourid.generate(30),
+                timestamp: new Date().toISOString(),
+            });
+        } else {
+            res.send({
+                userName: user.userName,
+                userMagikId: user.userMagikId,
+                userDisplayName: user.displayName,
+                userProvider: user.provider,
+                userProfilePicture: user.profilePicture,
+                userBio: user.userBio,
+                userPath: process.env.HOST + "/profile/" + user.userMagikId,
+                userApiPath:
+                    process.env.HOST + "/api/users/" + user.userMagikId,
+                userJoined: user.joinedAt,
+                userRole: user.userRole,
+                premium: user.premium,
+                verified: user.verified,
+            });
+        }
+    });
 });
 
 // Delete requests

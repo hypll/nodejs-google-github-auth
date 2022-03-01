@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const id = require("yourid");
 
 const UserSchema = new mongoose.Schema({
     userId: {
@@ -25,17 +24,6 @@ const UserSchema = new mongoose.Schema({
     userName: {
         type: String,
         required: true,
-    },
-
-    userEmail: {
-        type: String,
-        // required: true,
-        unique: true,
-    },
-
-    userStorage: {
-        type: Number,
-        default: 0,
     },
 
     userBio: {

@@ -53,11 +53,11 @@
         <!-- Navbar path: /partials/navbar -->
         <%- include('../../partials/navbar.ejs') %>
 
-        <section class="container-fluid mt-3">
+        <section class="container-fluid mt-3" user-data-id="<%- id %>"
             <div class="container mb-4">
                 <div class="row">
                     <div class="col-md-12">
-                        <h1 class="text-center"><%- disName %></h1>
+                        <h1 class="text-center" row-magikId="<%- magikId %> "><%- disName %></h1>
                     </div>
                 </div>
             </div>
@@ -123,6 +123,17 @@
             </div>
             <div class="row">
                 <div class="col-md-12">
+                    <% if (trueRole == 'admin') { %>
+                    <button
+                        onclick="window.location.href='/dashboard/admin#<%- id %>'"
+                        class="btn btn-danger btn-block"
+                        data-bs-toggle="tooltip"
+                        data-bs-placement="bottom"
+                        title="View user on admin panel"
+                    >
+                        <i class="fa fa-hammer"></i> Admin Panel
+                    </button>
+                    <% } %>
                     <% if (userId == trueUserId) { %>
                     <button
                         onclick="window.location.href='/dashboard'"

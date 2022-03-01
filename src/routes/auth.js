@@ -9,11 +9,18 @@ router.get("/", (req, res) => {
 
 // Github Auth
 
-router.get("/github", passport.authenticate("github", { scope: "user:email" }));
+router.get("/github", passport.authenticate("github"));
 
 router.get(
     "/github/callback",
-    passport.authenticate("github", { failureRedirect: "/login" }),
+    passport.authenticate(
+        "github",
+
+        {
+            failureRedirect:
+                "/login?error=true&error_id=1&error_message=Login failed!",
+        }
+    ),
     function (req, res) {
         res.redirect("/dashboard");
     }
@@ -33,10 +40,7 @@ router.get(
 
 // Google Auth
 
-router.get(
-    "/google",
-    passport.authenticate("google", { scope: ["email", "profile"] })
-);
+router.get("/google", passport.authenticate("google", { scope: ["profile"] }));
 
 router.get(
     "/google/callback",

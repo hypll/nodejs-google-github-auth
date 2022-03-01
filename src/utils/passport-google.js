@@ -10,7 +10,6 @@ passport.use(
             clientID: process.env.GOOGLE_CLIENT_ID,
             clientSecret: process.env.GOOGLE_CLIENT_SECRET,
             callbackURL: process.env.GOOGLE_CALLBACK_URL,
-            passReqToCallback: true,
         },
         async function (request, accessToken, refreshToken, profile, done) {
             const newUser = {
@@ -21,7 +20,6 @@ passport.use(
                     includePrefix: false,
                 }),
                 displayName: profile.displayName,
-                userEmail: profile.emails[0].value,
                 userName: `${profile.name.givenName}-${profile.name.familyName}`,
                 provider: profile.provider,
                 profilePicture: profile.photos[0].value,
