@@ -1,130 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <%- include('partials/head.ejs') %>
-        <title>Imagemagik</title>
+        <%- include('./partials/head') %>
+        <title>Document</title>
     </head>
     <body>
-        <!-- Navbar path: /partials/navbar -->
-        <%- include('partials/navbar.ejs') %>
+        <% if(isLoggedIn) { %>
+        <p>You are logged in as <strong><%- user.username %></strong></p>
 
-        <!-- Cover path: /**/ -->
-        <section
-            class="text-center justify-content-center d-flex"
-            style="background: #64748b; height: 34vh"
-            id="cover"
-        >
-            <div class="mt-4">
-                <h1
-                    style="
-                        font-size: 40px;
-                        color: white;
-                        font-weight: 700;
-                        text-shadow: 0 10px 20px rgba(0, 0, 0, 0.19),
-                            0 6px 6px rgba(0, 0, 0, 0.23);
-                    "
-                >
-                    Imagemagik
-                </h1>
-                <p style="font-size: 20px; color: #e2e8f0; font-weight: 500">
-                    The Free & Paid image hosting provider.
-                </p>
-                <div>
-                    <% if (isLoggedIn) { %>
-                    <a href="/dashboard" class="btn btn-dark"
-                        ><i class="fa fa-arrow-circle-right"></i> Go to
-                        dashboard</a
-                    >
-                    <% } else { %>
-                    <a href="/login" class="btn btn-outline-light">
-                        <i class="fa fa-sign-in-alt"></i> Login
-                    </a>
-                    <a href="/dashboard#upload" class="btn btn-dark">
-                        <i class="fas fa-cloud-upload-alt"></i> Upload
-                    </a>
-                    <% } %>
-                </div>
-            </div>
-        </section>
-        <main>
-            <div
-                class="
-                    container
-                    justify-content-center
-                    text-center
-                    align-items-center
-                    mb-5
-                    mt-2
-                "
-            >
-                <h2 class="">Features</h2>
-                <div
-                    class="
-                        row
-                        container
-                        justify-content-center
-                        text-center
-                        align-items-center
-                    "
-                >
-                    <div class="col-md-4">
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">
-                                    <i class="fas fa-cloud-upload-alt"></i>
-                                    Upload
-                                </h5>
-                                <p class="card-text">
-                                    Upload your images on the
-                                    <a href="/dashboard#upload">dashboard</a>
-                                </p>
+        <p>id: <strong><%- user.userId %></strong></p>
+        <p>Account created: <strong><%- user.createdAt %></strong></p>
+        <p>Provider: <strong><%- user.provider %></strong></p>
 
-                                <p class="card-text">
-                                    <small class="text-muted">
-                                        <i class="fas fa-check"></i> Free
-                                    </small>
-                                </p>
+        <img
+            src="<%- user.avatar %> "
+            alt="<%- user.username %>"
+            class="w-25 border-dark"
+        />
 
-                                <p class="card-text">
-                                    <small class="text-muted">
-                                        <i class="fas fa-check"></i> 30 MB
-                                        storage
-                                    </small>
-                                </p>
+        <a href="/auth/logout" class="btn btn-warning btn-sm">Logout</a>
+        <a href="/auth/delete" class="btn btn-danger btn-sm">Delete Account</a>
 
-                                <p class="card-text">
-                                    <small class="text-muted">
-                                        <i class="fas fa-check"></i> Free
-                                        support
-                                    </small>
-                                </p>
-
-                                <p class="card-text">
-                                    <small class="text-muted">
-                                        <i class="fas fa-check"></i> Free
-                                        updates
-                                    </small>
-                                </p>
-
-                                <p class="card-text">
-                                    <small class="text-muted">
-                                        <i class="fas fa-check"></i> Free image
-                                        hosting
-                                    </small>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </main>
-
-        <!-- Footer path: /partials/footer -->
-        <%- include('partials/footer.ejs') %>
-        <script>
-            $(".alert").on("click", function () {
-                $(this).remove();
-            });
-        </script>
+        <% } else { %>
+        <p>You are not logged in</p>
+        <a href="/auth/google" class="btn btn-primary">Login with Google</a>
+        <a href="/auth/github" class="btn btn-dark ml-5">Login with Github</a>
+        <% } %>
     </body>
 </html>

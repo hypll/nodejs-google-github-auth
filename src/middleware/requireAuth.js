@@ -20,10 +20,10 @@ module.exports = {
     },
 
     ensureAdmin: function (req, res, next) {
-        if (req.isAuthenticated() && req.user.userRole == "admin") {
+        if (req.isAuthenticated() && req.user.site_admin === true) {
             return next();
         } else {
-            res.redirect("/dashboard");
+            res.send("Page was not found on the server?");
         }
     },
 

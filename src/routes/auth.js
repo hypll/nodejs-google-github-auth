@@ -1,7 +1,6 @@
 const router = require("express").Router();
 const passport = require("passport");
 const User = require("../database/models/User");
-const Image = require("../database/models/image");
 
 router.get("/", (req, res) => {
     res.send(200);
@@ -18,23 +17,11 @@ router.get(
 
         {
             failureRedirect:
-                "/login?error=true&error_id=1&error_message=Login failed!",
+                "/?error=true&error_id=1&error_message=Login failed!",
         }
     ),
     function (req, res) {
-        res.redirect("/dashboard");
-    }
-);
-
-// Spotify Auth
-
-router.get("/spotify", passport.authenticate("spotify"));
-
-router.get(
-    "/spotify/callback",
-    passport.authenticate("spotify", { failureRedirect: "/login" }),
-    function (req, res) {
-        res.redirect("/dashboard");
+        res.redirect("/");
     }
 );
 
@@ -44,9 +31,9 @@ router.get("/google", passport.authenticate("google", { scope: ["profile"] }));
 
 router.get(
     "/google/callback",
-    passport.authenticate("google", { failureRedirect: "/login" }),
+    passport.authenticate("google", { failureRedirect: "/?error=true" }),
     function (req, res) {
-        res.redirect("/dashboard");
+        res.redirect("/");
     }
 );
 
@@ -55,6 +42,16 @@ router.get(
 router.get("/logout", (req, res) => {
     req.logout();
     res.redirect("/");
+});
+
+router.get("/delete", (req, res) => {
+    User.findOneAndDelete({ _id: req.user._id }, (err, user) => {
+        if (err) {
+            console.log(err);
+        } else {
+            res.redirect("/");
+        }
+    });
 });
 
 module.exports = router;

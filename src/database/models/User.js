@@ -7,26 +7,22 @@ const UserSchema = new mongoose.Schema({
         unique: true,
     },
 
-    userMagikId: {
-        type: String,
+    site_admin: {
+        type: Boolean,
         required: true,
-    },
-
-    userRole: {
-        type: String,
-        default: "user",
+        default: false,
     },
 
     displayName: {
         type: String,
     },
 
-    userName: {
+    username: {
         type: String,
         required: true,
     },
 
-    userBio: {
+    bio: {
         type: String,
         default: "This user has no bio.",
     },
@@ -36,27 +32,17 @@ const UserSchema = new mongoose.Schema({
         required: true,
     },
 
-    profilePicture: {
+    avatar: {
         type: String,
         required: true,
     },
 
-    premium: {
+    isVerified: {
         type: Boolean,
         default: false,
     },
 
-    verified: {
-        type: Boolean,
-        default: false,
-    },
-
-    apiKey: {
-        type: String,
-        required: true,
-    },
-
-    joinedAt: {
+    createdAt: {
         type: String,
         required: true,
     },

@@ -1,7 +1,7 @@
 const GoogleStrategy = require("passport-google-oauth2").Strategy;
 const passport = require("passport");
 const moment = require("moment");
-const yourid = require("yourid");
+
 const User = require("../database/models/User");
 
 passport.use(
@@ -14,21 +14,11 @@ passport.use(
         async function (request, accessToken, refreshToken, profile, done) {
             const newUser = {
                 userId: profile.id,
-                userMagikId: yourid.generate({
-                    length: 11,
-                    prefix: "",
-                    includePrefix: false,
-                }),
                 displayName: profile.displayName,
-                userName: `${profile.name.givenName}-${profile.name.familyName}`,
+                username: `${profile.name.givenName}-${profile.name.familyName}`,
                 provider: profile.provider,
-                profilePicture: profile.photos[0].value,
-                apiKey: yourid.generate({
-                    length: 30,
-                    prefix: "",
-                    includePrefix: false,
-                }),
-                joinedAt: moment().format("MMMM Do YYYY"),
+                avatar: profile.photos[0].value,
+                createdAt: moment().format("MMMM Do YYYY"),
             };
 
             try {
